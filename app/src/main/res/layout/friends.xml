@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212">
+
+    <!-- Search Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="58dp"
+        android:background="@drawable/bg_seachbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginStart="18dp"
+            android:src="@drawable/ic_search_dark"
+            app:tint="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/geist_extralight"
+            android:text="Search for Users, Artists, Tracks, Albums..."
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:letterSpacing="-0.03"
+            app:layout_constraintStart_toEndOf="@id/search_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ScrollView for content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:clipToPadding="false"
+        android:paddingBottom="103dp"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp">
+
+            <!-- Title Section -->
+            <TextView
+                android:id="@+id/friends_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/geist_black"
+                android:text="Friends"
+                android:textColor="#FFFFFF"
+                android:textSize="21sp"
+                android:letterSpacing="-0.016"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/username_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/geist_regular"
+                android:text="\@alvarocrsc"
+                android:textColor="#A5A5A5"
+                android:textSize="11sp"
+                android:letterSpacing="-0.03"
+                android:layout_marginTop="-2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/friends_title" />
+
+            <!-- New Followers Card -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/new_followers_card"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="23dp"
+                android:background="@drawable/bg_new_followers_dark"
+                android:padding="9dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/username_handle">
+
+                <!-- Profile Picture 1 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/new_follower_1"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    app:cardCornerRadius="17dp"
+                    app:cardElevation="0dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/new_user1" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Profile Picture 2 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/new_follower_2"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginStart="35dp"
+                    app:cardCornerRadius="17dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/new_user2" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Profile Picture 3 -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/new_follower_3"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginStart="60dp"
+                    app:cardCornerRadius="17dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/new_user3" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Followers Icon -->
+                <ImageView
+                    android:id="@+id/followers_icon"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_friends_dark"
+                    app:layout_constraintEnd_toStartOf="@id/new_followers_container"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <!-- New Followers Badge and Text Container -->
+                <LinearLayout
+                    android:id="@+id/new_followers_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <!-- Badge Circle with Count -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:background="@drawable/bg_circle_background"
+                        android:backgroundTint="#E56060">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/geist_regular"
+                            android:text="9"
+                            android:textColor="#F2F2F2"
+                            android:textSize="11sp"
+                            android:letterSpacing="-0.03"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:fontFamily="@font/geist_regular"
+                        android:text="New followers"
+                        android:textColor="#F2F2F2"
+                        android:textSize="12sp"
+                        android:letterSpacing="-0.03"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Friend 1: Ari -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/friend_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_followers_card">
+
+                <!-- Profile Picture -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/friend_1_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/friend1" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Name and Info -->
+                <TextView
+                    android:id="@+id/friend_1_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Ari"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:letterSpacing="-0.03"
+                    app:layout_constraintStart_toEndOf="@id/friend_1_image"
+                    app:layout_constraintTop_toTopOf="@id/friend_1_image" />
+
+                <TextView
+                    android:id="@+id/friend_1_handle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="\@amesttris"
+                    android:textColor="#A5A5A5"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    app:layout_constraintStart_toEndOf="@id/friend_1_name"
+                    app:layout_constraintTop_toTopOf="@id/friend_1_name"
+                    app:layout_constraintBottom_toBottomOf="@id/friend_1_name"
+                    app:layout_constraintVertical_bias="0.7"/>
+
+                <!-- Pro Badge -->
+                <TextView
+                    android:id="@+id/friend_1_pro_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_pro_badge"
+                    android:backgroundTint="#E5D460"
+                    android:fontFamily="@font/geist_bold"
+                    android:text="Pro"
+                    android:textColor="#000000"
+                    android:textSize="7sp"
+                    android:letterSpacing="-0.03"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    app:layout_constraintStart_toEndOf="@id/friend_1_handle"
+                    app:layout_constraintTop_toTopOf="@id/friend_1_name"
+                    app:layout_constraintBottom_toBottomOf="@id/friend_1_name"
+                    app:layout_constraintVertical_bias="0.7"/>
+
+                <!-- Now Listening -->
+                <ImageView
+                    android:id="@+id/friend_1_music_icon"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/ic_music_box"
+                    app:tint="#E56060"
+                    app:layout_constraintStart_toEndOf="@id/friend_1_image"
+                    app:layout_constraintTop_toBottomOf="@id/friend_1_name"/>
+
+                <TextView
+                    android:id="@+id/friend_1_listening"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Belisarius ✦ Farya Faraji"
+                    android:textColor="#E56060"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintStart_toEndOf="@id/friend_1_music_icon"
+                    app:layout_constraintEnd_toStartOf="@id/friend_1_following_btn"
+                    app:layout_constraintTop_toTopOf="@id/friend_1_music_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/friend_1_music_icon"/>
+
+                <!-- Following Button -->
+                <TextView
+                    android:id="@+id/friend_1_following_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_following_button"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Following"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Friend 2 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/friend_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/friend_1">
+
+                <!-- Profile Picture -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/friend_2_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/friend2" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Name and Info -->
+                <TextView
+                    android:id="@+id/friend_2_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Deeimos"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:letterSpacing="-0.03"
+                    app:layout_constraintStart_toEndOf="@id/friend_2_image"
+                    app:layout_constraintTop_toTopOf="@id/friend_2_image" />
+
+                <TextView
+                    android:id="@+id/friend_2_handle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="\@deeimos"
+                    android:textColor="#A5A5A5"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    app:layout_constraintStart_toEndOf="@id/friend_2_name"
+                    app:layout_constraintTop_toTopOf="@id/friend_2_name"
+                    app:layout_constraintBottom_toBottomOf="@id/friend_2_name"
+                    app:layout_constraintVertical_bias="0.7"/>
+
+                <!-- Now Listening -->
+                <ImageView
+                    android:id="@+id/friend_2_music_icon"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/ic_music_box"
+                    app:tint="#E56060"
+                    app:layout_constraintStart_toEndOf="@id/friend_2_image"
+                    app:layout_constraintTop_toBottomOf="@id/friend_2_name"/>
+
+                <TextView
+                    android:id="@+id/friend_2_listening"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="In the Evening ✦ Led Zeppelin"
+                    android:textColor="#E56060"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintStart_toEndOf="@id/friend_2_music_icon"
+                    app:layout_constraintEnd_toStartOf="@id/friend_2_following_btn"
+                    app:layout_constraintTop_toTopOf="@id/friend_2_music_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/friend_2_music_icon"/>
+
+                <!-- Following Button -->
+                <TextView
+                    android:id="@+id/friend_2_following_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_following_button"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Following"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Friend 3: RL16 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/friend_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/friend_2">
+
+                <!-- Profile Picture -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/friend_3_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/friend3" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Name and Info -->
+                <TextView
+                    android:id="@+id/friend_3_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="RL16"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:letterSpacing="-0.03"
+                    app:layout_constraintStart_toEndOf="@id/friend_3_image"
+                    app:layout_constraintTop_toTopOf="@id/friend_3_image" />
+
+                <TextView
+                    android:id="@+id/friend_3_handle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="\@RL16"
+                    android:textColor="#A5A5A5"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    app:layout_constraintStart_toEndOf="@id/friend_3_name"
+                    app:layout_constraintTop_toTopOf="@id/friend_3_name"
+                    app:layout_constraintBottom_toBottomOf="@id/friend_3_name"
+                    app:layout_constraintVertical_bias="0.7"/>
+
+                <!-- Now Listening -->
+                <ImageView
+                    android:id="@+id/friend_3_music_icon"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/ic_music_box"
+                    app:tint="#E56060"
+                    app:layout_constraintStart_toEndOf="@id/friend_3_image"
+                    app:layout_constraintTop_toBottomOf="@id/friend_3_name"/>
+
+                <TextView
+                    android:id="@+id/friend_3_listening"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Feuer frei! ✦ Rammstein"
+                    android:textColor="#E56060"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintStart_toEndOf="@id/friend_3_music_icon"
+                    app:layout_constraintEnd_toStartOf="@id/friend_3_following_btn"
+                    app:layout_constraintTop_toTopOf="@id/friend_3_music_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/friend_3_music_icon"/>
+
+                <!-- Following Button -->
+                <TextView
+                    android:id="@+id/friend_3_following_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_following_button"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Following"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Invite Friend Card -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/invite_friend_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/friend_3">
+
+                <!-- Dashed Circle Profile Picture -->
+                <View
+                    android:id="@+id/invite_circle_outer"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_dashed_circle"
+                    android:layerType="software"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/invite_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:layout_constraintStart_toStartOf="@id/invite_circle_outer"
+                    app:layout_constraintEnd_toEndOf="@id/invite_circle_outer"
+                    app:layout_constraintTop_toTopOf="@id/invite_circle_outer"
+                    app:layout_constraintBottom_toBottomOf="@id/invite_circle_outer">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/new_friend" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Name and Info -->
+                <TextView
+                    android:id="@+id/invite_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Invite friend"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:letterSpacing="-0.03"
+                    app:layout_constraintStart_toEndOf="@id/invite_image"
+                    app:layout_constraintTop_toTopOf="@id/invite_image" />
+
+                <TextView
+                    android:id="@+id/invite_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/geist_extralight"
+                    android:text="Let them step inside your soundscape"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintStart_toEndOf="@id/invite_image"
+                    app:layout_constraintEnd_toStartOf="@id/invite_share_btn"
+                    app:layout_constraintTop_toBottomOf="@id/invite_title"/>
+
+                <!-- Share Button -->
+                <TextView
+                    android:id="@+id/invite_share_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_following_button"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Share +"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:letterSpacing="-0.03"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <!-- Fixed Bottom Menu Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/menu_bar_stats"
+        android:layout_width="252dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="53dp"
+        android:background="@drawable/bg_menu_bar"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="8dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/home_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_home_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/stats_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:src="@drawable/ic_stats_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/discover_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:src="@drawable/ic_discover_selected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/stats_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/profile_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/linkin_park"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/discover_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
