@@ -12,7 +12,8 @@ class MainActivity : ComponentActivity() {
     
     enum class Screen {
         PROFILE,
-        STATS
+        STATS,
+        FRIENDS
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,12 @@ class MainActivity : ComponentActivity() {
     private fun showStatsScreen() {
         setContentView(R.layout.stats)
         currentScreen = Screen.STATS
+        setupBottomNavigation()
+    }
+
+    private fun showFriendsScreen() {
+        setContentView(R.layout.friends)
+        currentScreen = Screen.FRIENDS
         setupBottomNavigation()
     }
     
@@ -54,7 +61,9 @@ class MainActivity : ComponentActivity() {
         }
         
         discoverIcon?.setOnClickListener {
-            // Discover screen not yet implemented
+            if (currentScreen != Screen.FRIENDS) {
+                showFriendsScreen()
+            }
         }
         
         profileIcon?.setOnClickListener {
