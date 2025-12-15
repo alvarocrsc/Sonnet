@@ -1,0 +1,1327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dark_mode_stats"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212">
+
+    <!-- Fixed Top Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/stats_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#121212"
+        android:elevation="4dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/stats_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="35dp"
+            android:fontFamily="@font/geist_black"
+            android:text="Statistics"
+            android:textColor="#FFFFFF"
+            android:textSize="21sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Settings Button -->
+        <ImageView
+            android:id="@+id/settings_button_stats"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="34dp"
+            android:src="@drawable/ic_settings_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Handle -->
+        <TextView
+            android:id="@+id/handle_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="-4dp"
+            android:fontFamily="@font/geist_regular"
+            android:text="\@alvarocrsc"
+            android:textColor="#999999"
+            android:textSize="11sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_title" />
+
+        <!-- Profile Picture -->
+        <ImageView
+            android:id="@+id/profile_picture_stats"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/linkin_park"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/stats_title" />
+
+        <!-- Streak Text -->
+        <TextView
+            android:id="@+id/streak_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/geist_medium"
+            android:text="15 day streak"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/profile_picture_stats" />
+
+        <!-- Time Filter Buttons Container -->
+        <LinearLayout
+            android:id="@+id/time_filters_stats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/streak_text">
+
+            <TextView
+                android:id="@+id/filter_7days"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_filter_unselected"
+                android:fontFamily="@font/geist_regular"
+                android:gravity="center"
+                android:paddingTop="2dp"
+                android:paddingBottom="3dp"
+                android:text="7 days"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/filter_30days"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_filter_selected"
+                android:fontFamily="@font/geist_regular"
+                android:gravity="center"
+                android:paddingTop="2dp"
+                android:paddingBottom="3dp"
+                android:text="30 days"
+                android:textColor="#E56060"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/filter_6months"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_filter_unselected"
+                android:fontFamily="@font/geist_regular"
+                android:gravity="center"
+                android:paddingTop="2dp"
+                android:paddingBottom="3dp"
+                android:text="6 months"
+                android:textColor="#F2F2F2"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/filter_alltime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_filter_unselected"
+                android:fontFamily="@font/geist_regular"
+                android:gravity="center"
+                android:paddingTop="2dp"
+                android:paddingBottom="3dp"
+                android:text="All time"
+                android:textColor="#F2F2F2"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/scroll_content_stats"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="103dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stats_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/vertical_scroll_stats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Main Stats Grid -->
+            <LinearLayout
+                android:id="@+id/stats_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Row 1: Minutes and Artists -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- Minutes Card -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="105dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_minutes_rounded"
+                        android:clipToOutline="true">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/minutes"
+                            android:scaleType="centerCrop" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/icon_minutes"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_minutes"
+                                android:layout_marginEnd="4dp"
+                                app:layout_constraintEnd_toStartOf="@id/value_minutes"
+                                app:layout_constraintTop_toTopOf="@id/value_minutes"
+                                app:layout_constraintBottom_toBottomOf="@id/minutes_title"/>
+
+                            <TextView
+                                android:id="@+id/value_minutes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="3.63K"
+                                android:textColor="#FFFFFF"
+                                android:textSize="21sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/percent_minutes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="+21%"
+                                android:textColor="#60E57C"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@id/value_minutes"
+                                app:layout_constraintStart_toEndOf="@id/value_minutes"
+                                app:layout_constraintTop_toTopOf="@id/value_minutes" />
+
+                            <TextView
+                                android:id="@+id/minutes_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/geistmono_light"
+                                android:text="minutes"
+                                android:layout_marginTop="-8dp"
+                                android:textColor="#999999"
+                                android:textSize="12sp"
+                                app:layout_constraintTop_toBottomOf="@id/value_minutes"
+                                app:layout_constraintStart_toStartOf="@id/value_minutes" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </FrameLayout>
+
+                    <!-- Artists Card -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="105dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_artists_rounded"
+                        android:clipToOutline="true">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/artists"
+                            android:scaleType="centerCrop" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/icon_artists"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_artists"
+                                android:layout_marginEnd="4dp"
+                                app:layout_constraintEnd_toStartOf="@id/value_artists"
+                                app:layout_constraintTop_toTopOf="@id/value_artists"
+                                app:layout_constraintBottom_toBottomOf="@id/artists_title"/>
+
+                            <TextView
+                                android:id="@+id/value_artists"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="104"
+                                android:textColor="#FFFFFF"
+                                android:textSize="21sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/percent_artists"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="+10%"
+                                android:textColor="#60E57C"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@id/value_artists"
+                                app:layout_constraintStart_toEndOf="@id/value_artists"
+                                app:layout_constraintTop_toTopOf="@id/value_artists" />
+
+                            <TextView
+                                android:id="@+id/artists_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/geistmono_light"
+                                android:text="artists"
+                                android:layout_marginTop="-8dp"
+                                android:textColor="#999999"
+                                android:textSize="12sp"
+                                app:layout_constraintTop_toBottomOf="@id/value_artists"
+                                app:layout_constraintStart_toStartOf="@id/value_artists" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <!-- Row 2: Streams and Genres -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- Streams Card -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="105dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_streams_rounded"
+                        android:clipToOutline="true">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/streams"
+                            android:scaleType="centerCrop" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/icon_streams"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_streams"
+                                android:layout_marginEnd="4dp"
+                                app:layout_constraintEnd_toStartOf="@id/value_streams"
+                                app:layout_constraintTop_toTopOf="@id/value_streams"
+                                app:layout_constraintBottom_toBottomOf="@id/streams_title"/>
+
+                            <TextView
+                                android:id="@+id/value_streams"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="901"
+                                android:textColor="#FFFFFF"
+                                android:textSize="21sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/percent_streams"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="+19%"
+                                android:textColor="#60E57C"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@id/value_streams"
+                                app:layout_constraintStart_toEndOf="@id/value_streams"
+                                app:layout_constraintTop_toTopOf="@id/value_streams" />
+
+                            <TextView
+                                android:id="@+id/streams_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/geistmono_light"
+                                android:text="streams"
+                                android:layout_marginTop="-8dp"
+                                android:textColor="#999999"
+                                android:textSize="12sp"
+                                app:layout_constraintTop_toBottomOf="@id/value_streams"
+                                app:layout_constraintStart_toStartOf="@id/value_streams" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </FrameLayout>
+
+                    <!-- Genres Card -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="105dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_genres_rounded"
+                        android:clipToOutline="true">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/genres"
+                            android:scaleType="centerCrop" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/icon_genres"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_genres"
+                                android:layout_marginEnd="4dp"
+                                app:layout_constraintEnd_toStartOf="@id/value_genres"
+                                app:layout_constraintTop_toTopOf="@id/value_genres"
+                                app:layout_constraintBottom_toBottomOf="@id/genres_title"/>
+
+                            <TextView
+                                android:id="@+id/value_genres"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="33"
+                                android:textColor="#FFFFFF"
+                                android:textSize="21sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/percent_genres"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="-5%"
+                                android:textColor="#E56060"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@id/value_genres"
+                                app:layout_constraintStart_toEndOf="@id/value_genres"
+                                app:layout_constraintTop_toTopOf="@id/value_genres" />
+
+                            <TextView
+                                android:id="@+id/genres_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/geistmono_light"
+                                android:text="genres"
+                                android:layout_marginTop="-8dp"
+                                android:textColor="#999999"
+                                android:textSize="12sp"
+                                app:layout_constraintTop_toBottomOf="@id/value_genres"
+                                app:layout_constraintStart_toStartOf="@id/value_genres" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <!-- Row 3: Tracks and Albums -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- Tracks Card -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="105dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_tracks_rounded"
+                        android:clipToOutline="true">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/tracks"
+                            android:scaleType="centerCrop" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/icon_tracks"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_tracks"
+                                android:layout_marginEnd="4dp"
+                                app:layout_constraintEnd_toStartOf="@id/value_tracks"
+                                app:layout_constraintTop_toTopOf="@id/value_tracks"
+                                app:layout_constraintBottom_toBottomOf="@id/tracks_title"/>
+
+                            <TextView
+                                android:id="@+id/value_tracks"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="357"
+                                android:textColor="#FFFFFF"
+                                android:textSize="21sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/percent_tracks"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="-10%"
+                                android:textColor="#E56060"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@id/value_tracks"
+                                app:layout_constraintStart_toEndOf="@id/value_tracks"
+                                app:layout_constraintTop_toTopOf="@id/value_tracks" />
+
+                            <TextView
+                                android:id="@+id/tracks_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/geistmono_light"
+                                android:text="tracks"
+                                android:layout_marginTop="-8dp"
+                                android:textColor="#999999"
+                                android:textSize="12sp"
+                                app:layout_constraintTop_toBottomOf="@id/value_tracks"
+                                app:layout_constraintStart_toStartOf="@id/value_tracks" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </FrameLayout>
+
+                    <!-- Albums Card -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="105dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_albums_rounded"
+                        android:clipToOutline="true">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/albums"
+                            android:scaleType="centerCrop" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/icon_albums"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_albums"
+                                android:layout_marginEnd="4dp"
+                                app:layout_constraintEnd_toStartOf="@id/value_albums"
+                                app:layout_constraintTop_toTopOf="@id/value_albums"
+                                app:layout_constraintBottom_toBottomOf="@id/albums_title"/>
+
+                            <TextView
+                                android:id="@+id/value_albums"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="150"
+                                android:textColor="#FFFFFF"
+                                android:textSize="21sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/percent_albums"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="-1%"
+                                android:textColor="#E56060"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@id/value_albums"
+                                app:layout_constraintStart_toEndOf="@id/value_albums"
+                                app:layout_constraintTop_toTopOf="@id/value_albums" />
+
+                            <TextView
+                                android:id="@+id/albums_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/geistmono_light"
+                                android:text="albums"
+                                android:layout_marginTop="-8dp"
+                                android:textColor="#999999"
+                                android:textSize="12sp"
+                                app:layout_constraintTop_toBottomOf="@id/value_albums"
+                                app:layout_constraintStart_toStartOf="@id/value_albums" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <!-- Row 4: Favorites and Streak -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- Favorites Card -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="105dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_favorites_rounded"
+                        android:clipToOutline="true">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/favorites"
+                            android:scaleType="centerCrop" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/icon_favorites"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_favorites"
+                                android:layout_marginEnd="4dp"
+                                app:layout_constraintEnd_toStartOf="@id/value_favorites"
+                                app:layout_constraintTop_toTopOf="@id/value_favorites"
+                                app:layout_constraintBottom_toBottomOf="@id/favorites_title"/>
+
+                            <TextView
+                                android:id="@+id/value_favorites"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="40"
+                                android:textColor="#FFFFFF"
+                                android:textSize="21sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/percent_favorites"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="+12%"
+                                android:textColor="#60E57C"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@id/value_favorites"
+                                app:layout_constraintStart_toEndOf="@id/value_favorites"
+                                app:layout_constraintTop_toTopOf="@id/value_favorites" />
+
+                            <TextView
+                                android:id="@+id/favorites_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/geistmono_light"
+                                android:text="new favorites"
+                                android:layout_marginTop="-8dp"
+                                android:textColor="#999999"
+                                android:textSize="11sp"
+                                app:layout_constraintTop_toBottomOf="@id/value_favorites"
+                                app:layout_constraintStart_toStartOf="@id/value_favorites" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </FrameLayout>
+
+                    <!-- Streak Card -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="105dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_streak_rounded"
+                        android:clipToOutline="true">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/streak"
+                            android:scaleType="centerCrop" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                            <ImageView
+                                android:id="@+id/icon_streak"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_streak"
+                                android:layout_marginEnd="4dp"
+                                app:layout_constraintEnd_toStartOf="@id/value_streak"
+                                app:layout_constraintTop_toTopOf="@id/value_streak"
+                                app:layout_constraintBottom_toBottomOf="@id/streak_title"/>
+
+                            <TextView
+                                android:id="@+id/value_streak"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="15"
+                                android:textColor="#FFFFFF"
+                                android:textSize="21sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/keep_up_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/geistmono_medium"
+                                android:text="Keep up!"
+                                android:textColor="#60E57C"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@id/value_streak"
+                                app:layout_constraintStart_toEndOf="@id/value_streak"
+                                app:layout_constraintTop_toTopOf="@id/value_streak" />
+
+                            <TextView
+                                android:id="@+id/streak_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/geistmono_light"
+                                android:text="max streak days"
+                                android:layout_marginTop="-8dp"
+                                android:textColor="#999999"
+                                android:textSize="9sp"
+                                app:layout_constraintTop_toBottomOf="@id/value_streak"
+                                app:layout_constraintStart_toStartOf="@id/value_streak" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Your Top Artists Section -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/your_top_artists_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stats_grid">
+
+                <TextView
+                    android:id="@+id/top_artists_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/geist_black"
+                    android:text="Your Top Artists"
+                    android:textColor="#F2F2F2"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/artists_more_link_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/geist_medium"
+                    android:text="More"
+                    android:textColor="#E56060"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/top_artists_title"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Artist Cards List -->
+                <LinearLayout
+                    android:id="@+id/artists_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/top_artists_title">
+
+                    <!-- Artist 1: my bloody valentine -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="57dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/artist1_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="1"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/artist1_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/my_bloody_valentine"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist1_number"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/artist1_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="my bloody valentine"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/artist1_stats_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist1_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/artist1_stats_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="2dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="93 minutes ✦ 29 streams"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist1_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/artist1_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Artist 2: The Cure -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="57dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/artist2_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="2"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/artist2_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/the_cure"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist2_number_stats"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/artist2_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="The Cure"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/artist2_stats_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist2_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/artist2_stats_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="2dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="84 minutes ✦ 26 streams"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist2_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/artist2_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Artist 3: The Police -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="57dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/artist3_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="3"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/artist3_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/the_police"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist3_number_stats"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/artist3_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="The Police"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/artist3_stats_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist3_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/artist3_stats_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="2dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="57 minutes ✦ 26 streams"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist3_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/artist3_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Artist 4: Muse -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="57dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/artist4_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="4"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/artist4_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/muse"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist4_number_stats"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/artist4_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Muse"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/artist4_stats_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist4_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/artist4_stats_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="2dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="34 minutes ✦ 26 streams"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist4_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/artist4_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Artist 5: Misfits -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="57dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/artist5_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="5"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/artist5_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/linkin_park"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist5_number_stats"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/artist5_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Misfits"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/artist5_stats_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist5_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/artist5_stats_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="2dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="30 minutes ✦ 24 streams"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/artist5_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/artist5_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Bottom Padding Space -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/your_top_artists_stats" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <!-- Fixed Bottom Menu Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/menu_bar_stats"
+        android:layout_width="252dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="53dp"
+        android:background="@drawable/bg_menu_bar"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="8dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/home_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_home_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/stats_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:src="@drawable/ic_selected_stats"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/discover_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:src="@drawable/ic_stars_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/stats_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/profile_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/linkin_park"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/discover_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
