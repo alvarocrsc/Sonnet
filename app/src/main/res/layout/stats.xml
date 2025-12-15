@@ -196,13 +196,19 @@
                     android:orientation="horizontal">
 
                     <!-- Minutes Card -->
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="105dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_minutes_rounded"
-                        android:clipToOutline="true">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/transparent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_minutes_rounded">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -274,15 +280,23 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                     <!-- Artists Card -->
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="105dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_artists_rounded"
-                        android:clipToOutline="true">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/transparent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_artists_rounded">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -354,7 +368,9 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
 
@@ -366,13 +382,19 @@
                     android:orientation="horizontal">
 
                     <!-- Streams Card -->
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="105dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_streams_rounded"
-                        android:clipToOutline="true">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/transparent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_streams_rounded">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -444,15 +466,23 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                     <!-- Genres Card -->
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="105dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_genres_rounded"
-                        android:clipToOutline="true">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/transparent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_genres_rounded">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -524,7 +554,9 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
 
@@ -536,13 +568,19 @@
                     android:orientation="horizontal">
 
                     <!-- Tracks Card -->
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="105dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_tracks_rounded"
-                        android:clipToOutline="true">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/transparent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_tracks_rounded">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -614,15 +652,23 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                     <!-- Albums Card -->
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="105dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_albums_rounded"
-                        android:clipToOutline="true">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/transparent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_albums_rounded">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -694,7 +740,9 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
 
@@ -706,13 +754,19 @@
                     android:orientation="horizontal">
 
                     <!-- Favorites Card -->
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="105dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_favorites_rounded"
-                        android:clipToOutline="true">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/transparent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_favorites_rounded">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -776,7 +830,7 @@
                                 android:text="new favorites"
                                 android:layout_marginTop="-8dp"
                                 android:textColor="#999999"
-                                android:textSize="11sp"
+                                android:textSize="10sp"
                                 app:layout_constraintTop_toBottomOf="@id/value_favorites"
                                 app:layout_constraintStart_toStartOf="@id/value_favorites" />
 
@@ -784,15 +838,23 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                     <!-- Streak Card -->
-                    <FrameLayout
+                    <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="105dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_streak_rounded"
-                        android:clipToOutline="true">
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/transparent">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_streak_rounded">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -864,7 +926,9 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
 
@@ -914,7 +978,7 @@
                     <!-- Artist 1: my bloody valentine -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="57dp"
+                        android:layout_height="58dp"
                         android:layout_marginBottom="6dp"
                         android:background="@drawable/bg_filter_unselected"
                         android:padding="8dp">
@@ -932,16 +996,24 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/artist1_image_stats"
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_marginStart="12dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/my_bloody_valentine"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/artist1_number"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/my_bloody_valentine" />
+
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:id="@+id/artist1_name_stats"
@@ -965,11 +1037,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:layout_marginTop="2dp"
                             android:ellipsize="end"
                             android:fontFamily="@font/geistmono_light"
                             android:maxLines="1"
-                            android:text="93 minutes ✦ 29 streams"
+                            android:text="186 minutes ✦ 54 streams"
                             android:textColor="#F2F2F2"
                             android:textSize="8sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -982,7 +1053,7 @@
                     <!-- Artist 2: The Cure -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="57dp"
+                        android:layout_height="58dp"
                         android:layout_marginBottom="6dp"
                         android:background="@drawable/bg_filter_unselected"
                         android:padding="8dp">
@@ -1000,16 +1071,24 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/artist2_image_stats"
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_marginStart="12dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/the_cure"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/artist2_number_stats"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/the_cure" />
+
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:id="@+id/artist2_name_stats"
@@ -1033,11 +1112,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:layout_marginTop="2dp"
                             android:ellipsize="end"
                             android:fontFamily="@font/geistmono_light"
                             android:maxLines="1"
-                            android:text="84 minutes ✦ 26 streams"
+                            android:text="138 minutes ✦ 49 streams"
                             android:textColor="#F2F2F2"
                             android:textSize="8sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1050,7 +1128,7 @@
                     <!-- Artist 3: The Police -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="57dp"
+                        android:layout_height="58dp"
                         android:layout_marginBottom="6dp"
                         android:background="@drawable/bg_filter_unselected"
                         android:padding="8dp">
@@ -1068,16 +1146,24 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/artist3_image_stats"
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_marginStart="12dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/the_police"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/artist3_number_stats"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/the_police" />
+
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:id="@+id/artist3_name_stats"
@@ -1101,11 +1187,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:layout_marginTop="2dp"
                             android:ellipsize="end"
                             android:fontFamily="@font/geistmono_light"
                             android:maxLines="1"
-                            android:text="57 minutes ✦ 26 streams"
+                            android:text="136 minutes ✦ 39 streams"
                             android:textColor="#F2F2F2"
                             android:textSize="8sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1118,7 +1203,7 @@
                     <!-- Artist 4: Muse -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="57dp"
+                        android:layout_height="58dp"
                         android:layout_marginBottom="6dp"
                         android:background="@drawable/bg_filter_unselected"
                         android:padding="8dp">
@@ -1136,16 +1221,24 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/artist4_image_stats"
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_marginStart="12dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/muse"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/artist4_number_stats"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/muse" />
+
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:id="@+id/artist4_name_stats"
@@ -1169,11 +1262,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:layout_marginTop="2dp"
                             android:ellipsize="end"
                             android:fontFamily="@font/geistmono_light"
                             android:maxLines="1"
-                            android:text="34 minutes ✦ 26 streams"
+                            android:text="114 minutes ✦ 33 streams"
                             android:textColor="#F2F2F2"
                             android:textSize="8sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1186,7 +1278,7 @@
                     <!-- Artist 5: Misfits -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="57dp"
+                        android:layout_height="58dp"
                         android:background="@drawable/bg_filter_unselected"
                         android:padding="8dp">
 
@@ -1203,16 +1295,24 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/artist5_image_stats"
                             android:layout_width="42dp"
                             android:layout_height="42dp"
                             android:layout_marginStart="12dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/linkin_park"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/artist5_number_stats"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/misfits" />
+
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:id="@+id/artist5_name_stats"
@@ -1236,11 +1336,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:layout_marginTop="2dp"
                             android:ellipsize="end"
                             android:fontFamily="@font/geistmono_light"
                             android:maxLines="1"
-                            android:text="30 minutes ✦ 24 streams"
+                            android:text="90 minutes ✦ 16 streams"
                             android:textColor="#F2F2F2"
                             android:textSize="8sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -1254,12 +1353,850 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- Your Top Albums Section -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/your_top_albums_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/your_top_artists_stats">
+
+                <TextView
+                    android:id="@+id/top_albums_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/geist_black"
+                    android:text="Your Top Albums"
+                    android:textColor="#F2F2F2"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/albums_more_link_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/geist_medium"
+                    android:text="More"
+                    android:textColor="#E56060"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/top_albums_title"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Album Cards List -->
+                <LinearLayout
+                    android:id="@+id/albums_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/top_albums_title">
+
+                    <!-- Album 1: Loveless -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/album1_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="1"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/album1_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album1_number"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/loveless" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/album1_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Loveless"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/album1_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album1_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/album1_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="my bloody valentine"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album1_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/album1_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Album 2: The New Abnormal -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/album2_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="2"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/album2_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album2_number_stats"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/the_new_abnormal" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/album2_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="The New Abnormal"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/album2_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album2_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/album2_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="The Cure"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album2_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/album2_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Album 3: Die Cry Hate -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/album3_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="3"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/album3_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album3_number_stats"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/diecryhate" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/album3_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Die Cry Hate"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/album3_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album3_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/album3_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="The Police"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album3_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/album3_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Album 4: the fourth seal of zeen -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/album4_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="4"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/album4_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album4_number_stats"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/the_fourth_seal_of_zeen" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/album4_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="the fourth seal of zeen"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/album4_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album4_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/album4_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="Muse"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album4_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/album4_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Album 5: Razorblade Romance -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/album5_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="5"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/album5_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album5_number_stats"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/loveless" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/album5_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Razorblade Romance"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/album5_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album5_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/album5_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="Misfits"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/album5_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/album5_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Your Top Tracks Section -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/your_top_tracks_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/your_top_albums_stats">
+
+                <TextView
+                    android:id="@+id/top_tracks_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/geist_black"
+                    android:text="Your Top Tracks"
+                    android:textColor="#F2F2F2"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tracks_more_link_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/geist_medium"
+                    android:text="More"
+                    android:textColor="#E56060"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/top_tracks_title"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Track Cards List -->
+                <LinearLayout
+                    android:id="@+id/tracks_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/top_tracks_title">
+
+                    <!-- Track 1: Only Shallow -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/track1_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="1"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/track1_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track1_number"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/loveless" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/track1_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Only Shallow"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/track1_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track1_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/track1_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="my bloody valentine"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track1_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/track1_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Track 2: Pictures of You -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/track2_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="2"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/track2_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track2_number_stats"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/loveless" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/track2_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Pictures of You"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/track2_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track2_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/track2_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="The Cure"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track2_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/track2_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Track 3: Every Breath You Take -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/track3_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="3"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/track3_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track3_number_stats"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/loveless" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/track3_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Every Breath You Take"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/track3_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track3_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/track3_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="The Police"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track3_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/track3_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Track 4: Time Is Running Out -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/track4_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="4"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/track4_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track4_number_stats"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/the_fourth_seal_of_zeen" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/track4_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Time Is Running Out"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/track4_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track4_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/track4_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="Muse"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track4_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/track4_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Track 5: Scream! -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="58dp"
+                        android:background="@drawable/bg_filter_unselected"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/track5_number_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:text="5"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/track5_image_stats"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_marginStart="12dp"
+                            app:cardCornerRadius="21dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track5_number_stats"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/loveless" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/track5_name_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_medium"
+                            android:maxLines="1"
+                            android:text="Scream!"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toTopOf="@id/track5_artist_stats"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track5_image_stats"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                        <TextView
+                            android:id="@+id/track5_artist_stats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/geistmono_light"
+                            android:maxLines="1"
+                            android:text="Misfits"
+                            android:textColor="#F2F2F2"
+                            android:textSize="8sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/track5_image_stats"
+                            app:layout_constraintTop_toBottomOf="@id/track5_name_stats" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <!-- Bottom Padding Space -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/your_top_artists_stats" />
+                app:layout_constraintTop_toBottomOf="@id/your_top_tracks_stats" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
