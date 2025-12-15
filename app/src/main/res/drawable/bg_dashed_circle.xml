@@ -2,9 +2,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <stroke
-        android:width="5dp"
+        android:width="1dp"
         android:color="#F2F2F2"
-        android:dashWidth="35dp"
-        android:dashGap="15dp" />
+        android:dashWidth="6dp"
+        android:dashGap="4dp" />
     <solid android:color="@android:color/transparent" />
 </shape>

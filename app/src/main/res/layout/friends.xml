@@ -13,7 +13,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:layout_marginTop="58dp"
-        android:background="@drawable/bg_filter_unselected"
+        android:background="@drawable/bg_seachbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +23,7 @@
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:layout_marginStart="18dp"
-            android:src="@drawable/ic_search"
+            android:src="@drawable/ic_search_dark"
             app:tint="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:fontFamily="@font/geist_light"
+            android:fontFamily="@font/geist_extralight"
             android:text="Search for Users, Artists, Tracks, Albums..."
             android:textColor="#FFFFFF"
             android:textSize="13sp"
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="23dp"
-                android:background="@drawable/bg_stats_container"
+                android:background="@drawable/bg_new_followers_dark"
                 android:padding="9dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/username_handle">
@@ -106,6 +106,7 @@
                     android:layout_height="33dp"
                     app:cardCornerRadius="17dp"
                     app:cardElevation="0dp"
+                    android:layout_marginStart="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent">
@@ -122,7 +123,7 @@
                     android:id="@+id/new_follower_2"
                     android:layout_width="33dp"
                     android:layout_height="33dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="35dp"
                     app:cardCornerRadius="17dp"
                     app:cardElevation="0dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +142,7 @@
                     android:id="@+id/new_follower_3"
                     android:layout_width="33dp"
                     android:layout_height="33dp"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="60dp"
                     app:cardCornerRadius="17dp"
                     app:cardElevation="0dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -227,7 +228,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/friend_1_image"
                     android:layout_width="50dp"
-                    android:layout_height="52dp"
+                    android:layout_height="50dp"
                     app:cardCornerRadius="25dp"
                     app:cardElevation="0dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -266,7 +267,8 @@
                     android:letterSpacing="-0.03"
                     app:layout_constraintStart_toEndOf="@id/friend_1_name"
                     app:layout_constraintTop_toTopOf="@id/friend_1_name"
-                    app:layout_constraintBottom_toBottomOf="@id/friend_1_name"/>
+                    app:layout_constraintBottom_toBottomOf="@id/friend_1_name"
+                    app:layout_constraintVertical_bias="0.7"/>
 
                 <!-- Pro Badge -->
                 <TextView
@@ -283,11 +285,10 @@
                     android:letterSpacing="-0.03"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="1dp"
                     app:layout_constraintStart_toEndOf="@id/friend_1_handle"
                     app:layout_constraintTop_toTopOf="@id/friend_1_name"
-                    app:layout_constraintBottom_toBottomOf="@id/friend_1_name"/>
+                    app:layout_constraintBottom_toBottomOf="@id/friend_1_name"
+                    app:layout_constraintVertical_bias="0.7"/>
 
                 <!-- Now Listening -->
                 <ImageView
@@ -296,7 +297,7 @@
                     android:layout_height="17dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="2dp"
-                    android:src="@drawable/ic_spotify"
+                    android:src="@drawable/ic_music_box"
                     app:tint="#E56060"
                     app:layout_constraintStart_toEndOf="@id/friend_1_image"
                     app:layout_constraintTop_toBottomOf="@id/friend_1_name"/>
@@ -305,7 +306,7 @@
                     android:id="@+id/friend_1_listening"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="6dp"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/geist_regular"
                     android:text="Belisarius ✦ Farya Faraji"
@@ -353,7 +354,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/friend_2_image"
                     android:layout_width="50dp"
-                    android:layout_height="52dp"
+                    android:layout_height="50dp"
                     app:cardCornerRadius="25dp"
                     app:cardElevation="0dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -392,7 +393,8 @@
                     android:letterSpacing="-0.03"
                     app:layout_constraintStart_toEndOf="@id/friend_2_name"
                     app:layout_constraintTop_toTopOf="@id/friend_2_name"
-                    app:layout_constraintBottom_toBottomOf="@id/friend_2_name"/>
+                    app:layout_constraintBottom_toBottomOf="@id/friend_2_name"
+                    app:layout_constraintVertical_bias="0.7"/>
 
                 <!-- Now Listening -->
                 <ImageView
@@ -401,7 +403,7 @@
                     android:layout_height="17dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="2dp"
-                    android:src="@drawable/ic_spotify"
+                    android:src="@drawable/ic_music_box"
                     app:tint="#E56060"
                     app:layout_constraintStart_toEndOf="@id/friend_2_image"
                     app:layout_constraintTop_toBottomOf="@id/friend_2_name"/>
@@ -410,7 +412,7 @@
                     android:id="@+id/friend_2_listening"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="6dp"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/geist_regular"
                     android:text="In the Evening ✦ Led Zeppelin"
@@ -458,7 +460,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/friend_3_image"
                     android:layout_width="50dp"
-                    android:layout_height="52dp"
+                    android:layout_height="50dp"
                     app:cardCornerRadius="25dp"
                     app:cardElevation="0dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -497,7 +499,8 @@
                     android:letterSpacing="-0.03"
                     app:layout_constraintStart_toEndOf="@id/friend_3_name"
                     app:layout_constraintTop_toTopOf="@id/friend_3_name"
-                    app:layout_constraintBottom_toBottomOf="@id/friend_3_name"/>
+                    app:layout_constraintBottom_toBottomOf="@id/friend_3_name"
+                    app:layout_constraintVertical_bias="0.7"/>
 
                 <!-- Now Listening -->
                 <ImageView
@@ -506,7 +509,7 @@
                     android:layout_height="17dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="2dp"
-                    android:src="@drawable/ic_spotify"
+                    android:src="@drawable/ic_music_box"
                     app:tint="#E56060"
                     app:layout_constraintStart_toEndOf="@id/friend_3_image"
                     app:layout_constraintTop_toBottomOf="@id/friend_3_name"/>
@@ -515,7 +518,7 @@
                     android:id="@+id/friend_3_listening"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="6dp"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/geist_regular"
                     android:text="Feuer frei! ✦ Rammstein"
@@ -562,20 +565,24 @@
                 <!-- Dashed Circle Profile Picture -->
                 <View
                     android:id="@+id/invite_circle_outer"
-                    android:layout_width="50dp"
+                    android:layout_width="52dp"
                     android:layout_height="52dp"
                     android:background="@drawable/bg_dashed_circle"
+                    android:layerType="software"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/invite_image"
                     android:layout_width="50dp"
-                    android:layout_height="52dp"
+                    android:layout_height="50dp"
                     app:cardCornerRadius="25dp"
                     app:cardElevation="0dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:layout_constraintStart_toStartOf="@id/invite_circle_outer"
+                    app:layout_constraintEnd_toEndOf="@id/invite_circle_outer"
+                    app:layout_constraintTop_toTopOf="@id/invite_circle_outer"
+                    app:layout_constraintBottom_toBottomOf="@id/invite_circle_outer">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -605,7 +612,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="8dp"
-                    android:fontFamily="@font/geist_light"
+                    android:fontFamily="@font/geist_extralight"
                     android:text="Let them step inside your soundscape"
                     android:textColor="#FFFFFF"
                     android:textSize="11sp"
