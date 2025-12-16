@@ -21,8 +21,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         
-        // Start with profile screen
-        showProfileScreen()
+        // Start with home screen
+        showHomeScreen()
     }
 
     private fun showHomeScreen() {
@@ -50,11 +50,11 @@ class MainActivity : ComponentActivity() {
     }
     
     private fun setupBottomNavigation() {
-        // Get references to bottom navigation icons
-        val homeIcon = findViewById<ImageView>(R.id.home_icon) ?: findViewById<ImageView>(R.id.home_icon_stats)
-        val statsIcon = findViewById<ImageView>(R.id.stats_icon) ?: findViewById<ImageView>(R.id.stats_icon_stats)
-        val discoverIcon = findViewById<ImageView>(R.id.discover_icon) ?: findViewById<ImageView>(R.id.discover_icon_stats)
-        val profileIcon = findViewById<ImageView>(R.id.profile_icon) ?: findViewById<ImageView>(R.id.profile_icon_stats)
+        // Get references to bottom navigation containers for larger touch targets
+        val homeIcon = findViewById<View>(R.id.home_icon_container)
+        val statsIcon = findViewById<View>(R.id.stats_icon_container)
+        val discoverIcon = findViewById<View>(R.id.discover_icon_container)
+        val profileIcon = findViewById<View>(R.id.profile_icon_container)
         
         // Set up click listeners
         homeIcon?.setOnClickListener {
