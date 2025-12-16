@@ -13,7 +13,8 @@ class MainActivity : ComponentActivity() {
     enum class Screen {
         PROFILE,
         STATS,
-        FRIENDS
+        FRIENDS,
+        HOME
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,13 @@ class MainActivity : ComponentActivity() {
         // Start with profile screen
         showProfileScreen()
     }
-    
+
+    private fun showHomeScreen() {
+        setContentView(R.layout.home)
+        currentScreen = Screen.HOME
+        setupBottomNavigation()
+    }
+
     private fun showProfileScreen() {
         setContentView(R.layout.profile)
         currentScreen = Screen.PROFILE
@@ -51,7 +58,9 @@ class MainActivity : ComponentActivity() {
         
         // Set up click listeners
         homeIcon?.setOnClickListener {
-            // Home screen not yet implemented
+            if (currentScreen != Screen.HOME) {
+                showHomeScreen()
+            }
         }
         
         statsIcon?.setOnClickListener {

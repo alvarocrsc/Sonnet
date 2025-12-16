@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dark_mode_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212">
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/vertical_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="103dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp">
+
+            <!-- Greeting Section -->
+            <TextView
+                android:id="@+id/greeting_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/geist_black"
+                android:text="Good morning, Álvaro"
+                android:textColor="#FFFFFF"
+                android:textSize="21sp"
+                android:letterSpacing="-0.016"
+                android:layout_marginTop="35dp"
+                android:lineSpacingMultiplier="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Settings Button -->
+            <ImageView
+                android:id="@+id/settings_button_home"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="34dp"
+                android:src="@drawable/ic_settings_dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Date Text -->
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/geist_regular"
+                android:text="Wednesday, November 19"
+                android:textColor="#A5A5A5"
+                android:textSize="11sp"
+                android:letterSpacing="-0.03"
+                android:layout_marginTop="-2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/greeting_text" />
+
+            <!-- Now Playing Section -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/now_listening"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_now_playing"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_text">
+
+                <!-- Currently playing title -->
+                <TextView
+                    android:id="@+id/currently_playing_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/geist_black"
+                    android:text="Currently playing"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="0.67"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Spotify Icon -->
+                <ImageView
+                    android:id="@+id/spotify_icon_home"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_marginEnd="21dp"
+                    android:src="@drawable/ic_spotify"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/currently_playing_title"
+                    app:layout_constraintBottom_toBottomOf="@id/currently_playing_title" />
+
+                <!-- Album Cover -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/album_cover"
+                    android:layout_width="139dp"
+                    android:layout_height="139dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="17dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/currently_playing_title">
+
+                    <ImageView
+                        android:id="@+id/album_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fallen" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Track Name -->
+                <TextView
+                    android:id="@+id/track_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginEnd="21dp"
+                    android:fontFamily="@font/geistmono_black"
+                    android:text="Haunted"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="0.62"
+                    app:layout_constraintStart_toEndOf="@id/album_cover"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/album_cover"
+                    app:layout_constraintBottom_toBottomOf="@id/album_cover"
+                    app:layout_constraintVertical_bias="0.4"/>
+
+                <!-- Artist Name -->
+                <TextView
+                    android:id="@+id/artist_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="Evanescence"
+                    android:textColor="#A5A5A5"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintStart_toStartOf="@id/track_name"
+                    app:layout_constraintEnd_toEndOf="@id/track_name"
+                    app:layout_constraintTop_toBottomOf="@id/track_name" />
+
+                <!-- Progress Background -->
+                <View
+                    android:id="@+id/progress_bg"
+                    android:layout_width="0dp"
+                    android:layout_height="3.5dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/bg_progress_bar"
+                    app:layout_constraintStart_toEndOf="@id/album_cover"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/album_cover" />
+
+                <!-- Progress Fill -->
+                <View
+                    android:id="@+id/progress_fill"
+                    android:layout_width="0dp"
+                    android:layout_height="3.5dp"
+                    android:background="@drawable/bg_progress_fill"
+                    app:layout_constraintStart_toStartOf="@id/progress_bg"
+                    app:layout_constraintTop_toTopOf="@id/progress_bg"
+                    app:layout_constraintWidth_percent="0.2" />
+
+                <!-- Current Time -->
+                <TextView
+                    android:id="@+id/current_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="1:27"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.14"
+                    app:layout_constraintStart_toStartOf="@id/progress_bg"
+                    app:layout_constraintBottom_toTopOf="@id/progress_bg" />
+
+                <!-- Total Time -->
+                <TextView
+                    android:id="@+id/total_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="3:05"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.14"
+                    app:layout_constraintEnd_toEndOf="@id/progress_bg"
+                    app:layout_constraintBottom_toTopOf="@id/progress_bg" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Your Rewinds Title -->
+            <TextView
+                android:id="@+id/your_rewinds_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/geist_black"
+                android:text="Your Rewinds"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:letterSpacing="-0.016"
+                android:lineSpacingMultiplier="1.14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/now_listening" />
+
+            <!-- Monthly Rewind Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/monthly_rewind_card"
+                android:layout_width="0dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="6dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#90121212"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/annual_rewind_card"
+                app:layout_constraintTop_toBottomOf="@id/your_rewinds_title"
+                app:layout_constraintWidth_percent="0.49">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- Background Image -->
+                    <ImageView
+                        android:id="@+id/monthly_rewind_background"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/monthly_rewind"
+                        android:alpha="0.9"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- Bar 1 (Left) -->
+                <View
+                    android:id="@+id/monthly_bar_1"
+                    android:layout_width="46dp"
+                    android:layout_height="61dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="-5dp"
+                    android:background="@drawable/bg_glass_bar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/monthly_bar_2"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- Bar 2 (Center - Tallest) -->
+                <View
+                    android:id="@+id/monthly_bar_2"
+                    android:layout_width="46dp"
+                    android:layout_height="82dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="-5dp"
+                    android:background="@drawable/bg_glass_bar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- Bar 3 (Right) -->
+                <View
+                    android:id="@+id/monthly_bar_3"
+                    android:layout_width="46dp"
+                    android:layout_height="43dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="-5dp"
+                    android:background="@drawable/bg_glass_bar"
+                    app:layout_constraintStart_toEndOf="@id/monthly_bar_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- Monthly Text (Centered) -->
+                <TextView
+                    android:id="@+id/monthly_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/geist_black"
+                    android:text="Monthly"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:lineSpacingMultiplier="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Rewind Text (Centered) -->
+                <TextView
+                    android:id="@+id/monthly_rewind_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-5dp"
+                    android:fontFamily="@font/geist_regular"
+                    android:text="Rewind"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:lineSpacingMultiplier="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/monthly_text" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Annual Rewind Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/annual_rewind_card"
+                android:layout_width="0dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="6dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#90121212"
+                app:layout_constraintStart_toEndOf="@id/monthly_rewind_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/your_rewinds_title"
+                app:layout_constraintWidth_percent="0.49">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- Background Image -->
+                    <ImageView
+                        android:id="@+id/annual_rewind_background"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/annual_rewind"
+                        android:alpha="0.9"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <!-- Bar 1 (Left) -->
+                    <View
+                        android:id="@+id/annual_bar_1"
+                        android:layout_width="46dp"
+                        android:layout_height="33dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="-5dp"
+                        android:background="@drawable/bg_glass_bar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/annual_bar_2"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <!-- Bar 2 (Center - Tallest) -->
+                    <View
+                        android:id="@+id/annual_bar_2"
+                        android:layout_width="46dp"
+                        android:layout_height="82dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="-5dp"
+                        android:background="@drawable/bg_glass_bar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <!-- Bar 3 (Right) -->
+                    <View
+                        android:id="@+id/annual_bar_3"
+                        android:layout_width="46dp"
+                        android:layout_height="66dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="-5dp"
+                        android:background="@drawable/bg_glass_bar"
+                        app:layout_constraintStart_toEndOf="@id/annual_bar_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <!-- Annual Text (Centered) -->
+                    <TextView
+                        android:id="@+id/annual_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:fontFamily="@font/geist_black"
+                        android:text="Annual"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:lineSpacingMultiplier="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- Rewind Text (Centered) -->
+                    <TextView
+                        android:id="@+id/annual_rewind_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:fontFamily="@font/geist_regular"
+                        android:text="Rewind"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:lineSpacingMultiplier="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/annual_text" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Recently Played Title -->
+            <TextView
+                android:id="@+id/recently_played_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/geist_black"
+                android:text="Recently played"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:letterSpacing="-0.016"
+                android:lineSpacingMultiplier="1.14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/monthly_rewind_card" />
+
+
+
+            <!-- Track Card: Friday I'm In Love -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/track_card_friday"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/bg_filter_unselected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recently_played_title">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/track_image_friday"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/friday_im_in_love" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/track_name_friday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/geistmono_semibold"
+                    android:text="Friday I'm In Love"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="0.89"
+                    app:layout_constraintStart_toEndOf="@id/track_image_friday"
+                    app:layout_constraintTop_toTopOf="@id/track_image_friday"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_friday"
+                    app:layout_constraintVertical_bias="0.36" />
+
+                <TextView
+                    android:id="@+id/artist_name_friday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:layout_marginTop="-4dp"
+                    android:text="The Cure"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintStart_toEndOf="@id/track_image_friday"
+                    app:layout_constraintTop_toBottomOf="@id/track_name_friday" />
+
+                <ImageView
+                    android:id="@+id/rewind_icon_friday"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_last_listened_dark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/track_image_friday"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_friday"
+                    app:layout_constraintVertical_bias="0.35"/>
+
+                <TextView
+                    android:id="@+id/time_text_friday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="15s"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rewind_icon_friday"
+                    app:layout_constraintVertical_bias="0.64" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Track Card: Skulls -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/track_card_skulls"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/bg_filter_unselected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/track_card_friday">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/track_image_skulls"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/skulls" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/track_name_skulls"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/geistmono_semibold"
+                    android:text="Skulls"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="0.89"
+                    app:layout_constraintStart_toEndOf="@id/track_image_skulls"
+                    app:layout_constraintTop_toTopOf="@id/track_image_skulls"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_skulls"
+                    app:layout_constraintVertical_bias="0.36" />
+
+                <TextView
+                    android:id="@+id/artist_name_skulls"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="Misfits, Glenn Danzig"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintStart_toEndOf="@id/track_image_skulls"
+                    app:layout_constraintTop_toBottomOf="@id/track_name_skulls" />
+
+                <ImageView
+                    android:id="@+id/rewind_icon_skulls"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_last_listened_dark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/track_image_skulls"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_skulls"
+                    app:layout_constraintVertical_bias="0.35" />
+
+                <TextView
+                    android:id="@+id/time_text_skulls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="7m"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rewind_icon_skulls" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Track Card: The Last Goodbye -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/track_card_goodbye"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/bg_filter_unselected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/track_card_skulls">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/track_image_goodbye"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/the_last_goodbye" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/track_name_goodbye"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/geistmono_semibold"
+                    android:text="The Last Goodbye"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="0.89"
+                    app:layout_constraintStart_toEndOf="@id/track_image_goodbye"
+                    app:layout_constraintTop_toTopOf="@id/track_image_goodbye"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_goodbye"
+                    app:layout_constraintVertical_bias="0.36" />
+
+                <TextView
+                    android:id="@+id/artist_name_goodbye"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="Agent Orange"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintStart_toEndOf="@id/track_image_goodbye"
+                    app:layout_constraintTop_toBottomOf="@id/track_name_goodbye" />
+
+                <ImageView
+                    android:id="@+id/rewind_icon_goodbye"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_last_listened_dark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/track_image_goodbye"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_goodbye"
+                    app:layout_constraintVertical_bias="0.35" />
+
+                <TextView
+                    android:id="@+id/time_text_goodbye"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="20m"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rewind_icon_goodbye" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Track Card: Dream On -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/track_card_dream"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/bg_filter_unselected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/track_card_goodbye">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/track_image_dream"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/dream_on" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/track_name_dream"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/geistmono_semibold"
+                    android:text="Dream On"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="0.89"
+                    app:layout_constraintStart_toEndOf="@id/track_image_dream"
+                    app:layout_constraintTop_toTopOf="@id/track_image_dream"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_dream"
+                    app:layout_constraintVertical_bias="0.36" />
+
+                <TextView
+                    android:id="@+id/artist_name_dream"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="Aerosmith"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintStart_toEndOf="@id/track_image_dream"
+                    app:layout_constraintTop_toBottomOf="@id/track_name_dream" />
+
+                <ImageView
+                    android:id="@+id/rewind_icon_dream"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_last_listened_dark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/track_image_dream"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_dream"
+                    app:layout_constraintVertical_bias="0.35" />
+
+                <TextView
+                    android:id="@+id/time_text_dream"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="1h"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rewind_icon_dream" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Track Card: Runaway -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/track_card_runaway"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/bg_filter_unselected"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/track_card_dream">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/track_image_runaway"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/runaway" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/track_name_runaway"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/geistmono_semibold"
+                    android:text="Runaway"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="0.89"
+                    app:layout_constraintStart_toEndOf="@id/track_image_runaway"
+                    app:layout_constraintTop_toTopOf="@id/track_image_runaway"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_runaway"
+                    app:layout_constraintVertical_bias="0.36" />
+
+                <TextView
+                    android:id="@+id/artist_name_runaway"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="Bon Jovi"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintStart_toEndOf="@id/track_image_runaway"
+                    app:layout_constraintTop_toBottomOf="@id/track_name_runaway" />
+
+                <ImageView
+                    android:id="@+id/rewind_icon_runaway"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_last_listened_dark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/track_image_runaway"
+                    app:layout_constraintBottom_toBottomOf="@id/track_image_runaway"
+                    app:layout_constraintVertical_bias="0.35" />
+
+                <TextView
+                    android:id="@+id/time_text_runaway"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/geistmono_light"
+                    android:text="1h"
+                    android:textColor="#FFFFFF"
+                    android:textSize="9sp"
+                    android:letterSpacing="-0.016"
+                    android:lineSpacingMultiplier="1.23"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rewind_icon_runaway" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <!-- Fixed Bottom Menu Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/menu_bar_stats"
+        android:layout_width="252dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="53dp"
+        android:background="@drawable/bg_menu_bar"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="8dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/home_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_home_selected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/stats_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:src="@drawable/ic_stats_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/discover_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:src="@drawable/ic_stars_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/stats_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/profile_icon_stats"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="37dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/linkin_park"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/discover_icon_stats"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
