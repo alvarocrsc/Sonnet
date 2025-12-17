@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:fontFamily="@font/geist_black"
+            android:fontFamily="@font/spotify_mix_ui_title_extrabold"
             android:text="Spotify"
             android:textColor="#121212"
             android:textSize="16sp"
