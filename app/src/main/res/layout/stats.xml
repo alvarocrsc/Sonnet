@@ -34,17 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Settings Button -->
-        <ImageView
-            android:id="@+id/settings_button_stats"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="34dp"
-            android:src="@drawable/ic_settings_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <!-- Handle -->
         <TextView
             android:id="@+id/handle_stats"

@@ -92,6 +92,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun showSettingsScreen() {
+        // Prevent opening settings if already open
+        if (settingsOverlay != null) {
+            return
+        }
+        
         previousScreen = currentScreen
         
         // Inflate settings layout
@@ -101,6 +106,9 @@ class MainActivity : ComponentActivity() {
         // Add settings view as overlay on top of current content
         val rootView = findViewById<ViewGroup>(android.R.id.content)
         rootView.addView(settingsView)
+        
+        // Get the profile content view to animate
+        val profileContent = rootView.getChildAt(0)
         
         // Set up back button click listener
         settingsView.findViewById<View>(R.id.back_button)?.setOnClickListener {
@@ -120,7 +128,13 @@ class MainActivity : ComponentActivity() {
                 // Start position: off screen to the right
                 settingsView.translationX = settingsView.width.toFloat()
                 
-                // Animate slide in from right
+                // Animate profile screen moving left
+                profileContent.animate()
+                    .translationX(-200f)
+                    .setDuration(300)
+                    .start()
+                
+                // Animate settings slide in from right
                 settingsView.animate()
                     .translationX(0f)
                     .setDuration(300)
@@ -133,13 +147,22 @@ class MainActivity : ComponentActivity() {
     
     fun exitSettings() {
         settingsOverlay?.let { settingsView ->
-            // Animate slide out to right
+            // Get the profile content view to animate back
+            val rootView = findViewById<ViewGroup>(android.R.id.content)
+            val profileContent = rootView.getChildAt(0)
+            
+            // Animate profile screen moving back to original position
+            profileContent.animate()
+                .translationX(0f)
+                .setDuration(300)
+                .start()
+            
+            // Animate settings slide out to right
             settingsView.animate()
                 .translationX(settingsView.width.toFloat())
                 .setDuration(300)
                 .withEndAction {
                     // Remove settings overlay after animation
-                    val rootView = findViewById<ViewGroup>(android.R.id.content)
                     rootView.removeView(settingsView)
                     settingsOverlay = null
                     currentScreen = previousScreen

@@ -39,15 +39,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Settings Button -->
-            <ImageView
-                android:id="@+id/settings_button_home"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
-                android:layout_marginTop="34dp"
-                android:src="@drawable/ic_settings_dark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            &lt;!&ndash; Settings Button &ndash;&gt;-->
+<!--            <ImageView-->
+<!--                android:id="@+id/settings_button_home"-->
+<!--                android:layout_width="21dp"-->
+<!--                android:layout_height="21dp"-->
+<!--                android:layout_marginTop="34dp"-->
+<!--                android:src="@drawable/ic_settings_dark"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <!-- Date Text -->
             <TextView
