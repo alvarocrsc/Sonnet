@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import com.example.sonnet.spotify.SpotifyConfig
@@ -46,6 +47,12 @@ class MainActivity : ComponentActivity() {
         
         Log.d("MainActivity", "User authenticated, showing home screen")
         
+        // Set the main container layout with fixed bottom bar
+        setContentView(R.layout.activity_main)
+        
+        // Set up bottom navigation
+        setupBottomNavigation()
+        
         // Show home screen
         showHomeScreen()
         
@@ -63,30 +70,38 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun showHomeScreen() {
-        setContentView(R.layout.home)
+        val contentContainer = findViewById<FrameLayout>(R.id.content_container)
+        contentContainer.removeAllViews()
+        layoutInflater.inflate(R.layout.home, contentContainer, true)
         currentScreen = Screen.HOME
-        setupBottomNavigation()
+        updateBottomNavigation()
     }
     
     private fun showStatsScreen() {
-        setContentView(R.layout.stats)
+        val contentContainer = findViewById<FrameLayout>(R.id.content_container)
+        contentContainer.removeAllViews()
+        layoutInflater.inflate(R.layout.stats, contentContainer, true)
         currentScreen = Screen.STATS
-        setupBottomNavigation()
+        updateBottomNavigation()
     }
 
     private fun showFriendsScreen() {
-        setContentView(R.layout.friends)
+        val contentContainer = findViewById<FrameLayout>(R.id.content_container)
+        contentContainer.removeAllViews()
+        layoutInflater.inflate(R.layout.friends, contentContainer, true)
         currentScreen = Screen.FRIENDS
-        setupBottomNavigation()
+        updateBottomNavigation()
     }
 
     private fun showProfileScreen() {
-        setContentView(R.layout.profile)
+        val contentContainer = findViewById<FrameLayout>(R.id.content_container)
+        contentContainer.removeAllViews()
+        val profileView = layoutInflater.inflate(R.layout.profile, contentContainer, true)
         currentScreen = Screen.PROFILE
-        setupBottomNavigation()
+        updateBottomNavigation()
         
         // Set up settings button click listener
-        findViewById<View>(R.id.settings_button)?.setOnClickListener {
+        profileView.findViewById<View>(R.id.settings_button)?.setOnClickListener {
             showSettingsScreen()
         }
     }
@@ -99,16 +114,15 @@ class MainActivity : ComponentActivity() {
         
         previousScreen = currentScreen
         
+        // Get the content container
+        val contentContainer = findViewById<FrameLayout>(R.id.content_container)
+        
         // Inflate settings layout
         val settingsView = layoutInflater.inflate(R.layout.settings, null)
         settingsOverlay = settingsView
         
-        // Add settings view as overlay on top of current content
-        val rootView = findViewById<ViewGroup>(android.R.id.content)
-        rootView.addView(settingsView)
-        
-        // Get the profile content view to animate
-        val profileContent = rootView.getChildAt(0)
+        // Add settings view as overlay
+        contentContainer.addView(settingsView)
         
         // Set up back button click listener
         settingsView.findViewById<View>(R.id.back_button)?.setOnClickListener {
@@ -125,14 +139,17 @@ class MainActivity : ComponentActivity() {
             override fun onGlobalLayout() {
                 settingsView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 
+                // Get the profile content (first child in container)
+                val profileContent = contentContainer.getChildAt(0)
+                
                 // Start position: off screen to the right
                 settingsView.translationX = settingsView.width.toFloat()
                 
                 // Animate profile screen moving left
-                profileContent.animate()
-                    .translationX(-200f)
-                    .setDuration(300)
-                    .start()
+                profileContent?.animate()
+                    ?.translationX(-200f)
+                    ?.setDuration(300)
+                    ?.start()
                 
                 // Animate settings slide in from right
                 settingsView.animate()
@@ -147,15 +164,14 @@ class MainActivity : ComponentActivity() {
     
     fun exitSettings() {
         settingsOverlay?.let { settingsView ->
-            // Get the profile content view to animate back
-            val rootView = findViewById<ViewGroup>(android.R.id.content)
-            val profileContent = rootView.getChildAt(0)
+            val contentContainer = findViewById<FrameLayout>(R.id.content_container)
+            val profileContent = contentContainer.getChildAt(0)
             
             // Animate profile screen moving back to original position
-            profileContent.animate()
-                .translationX(0f)
-                .setDuration(300)
-                .start()
+            profileContent?.animate()
+                ?.translationX(0f)
+                ?.setDuration(300)
+                ?.start()
             
             // Animate settings slide out to right
             settingsView.animate()
@@ -163,7 +179,7 @@ class MainActivity : ComponentActivity() {
                 .setDuration(300)
                 .withEndAction {
                     // Remove settings overlay after animation
-                    rootView.removeView(settingsView)
+                    contentContainer.removeView(settingsView)
                     settingsOverlay = null
                     currentScreen = previousScreen
                 }
@@ -203,6 +219,30 @@ class MainActivity : ComponentActivity() {
             }
         })
     }
+    
+    private fun updateBottomNavigation() {
+        // Get all icon ImageViews
+        val homeIcon = findViewById<ImageView>(R.id.home_icon)
+        val statsIcon = findViewById<ImageView>(R.id.stats_icon)
+        val discoverIcon = findViewById<ImageView>(R.id.discover_icon)
+        val profileCircle = findViewById<View>(R.id.profile_circle_bg)
+        
+        // Reset all to inactive state
+        homeIcon?.setImageResource(R.drawable.ic_home_dark)
+        statsIcon?.setImageResource(R.drawable.ic_stats_dark)
+        discoverIcon?.setImageResource(R.drawable.ic_stars_dark)
+        profileCircle?.visibility = View.GONE
+        
+        // Set active state based on currentScreen
+        when (currentScreen) {
+            Screen.HOME -> homeIcon?.setImageResource(R.drawable.ic_home_selected)
+            Screen.STATS -> statsIcon?.setImageResource(R.drawable.ic_selected_stats)
+            Screen.FRIENDS -> discoverIcon?.setImageResource(R.drawable.ic_discover_selected)
+            Screen.PROFILE -> profileCircle?.visibility = View.VISIBLE
+            Screen.SETTINGS -> profileCircle?.visibility = View.VISIBLE
+        }
+    }
+    
     private fun setupBottomNavigation() {
         // Get references to bottom navigation containers for larger touch targets
         val homeIcon = findViewById<View>(R.id.home_icon_container)
@@ -213,26 +253,45 @@ class MainActivity : ComponentActivity() {
         // Set up click listeners
         homeIcon?.setOnClickListener {
             if (currentScreen != Screen.HOME) {
+                // Close settings if open
+                closeSettingsIfOpen()
                 showHomeScreen()
             }
         }
         
         statsIcon?.setOnClickListener {
             if (currentScreen != Screen.STATS) {
+                // Close settings if open
+                closeSettingsIfOpen()
                 showStatsScreen()
             }
         }
         
         discoverIcon?.setOnClickListener {
             if (currentScreen != Screen.FRIENDS) {
+                // Close settings if open
+                closeSettingsIfOpen()
                 showFriendsScreen()
             }
         }
         
         profileIcon?.setOnClickListener {
-            if (currentScreen != Screen.PROFILE) {
+            if (currentScreen != Screen.PROFILE && currentScreen != Screen.SETTINGS) {
+                // Close settings if open
+                closeSettingsIfOpen()
                 showProfileScreen()
+            } else if (currentScreen == Screen.SETTINGS) {
+                // If already in settings, close it to go back to profile
+                exitSettings()
             }
+        }
+    }
+    
+    private fun closeSettingsIfOpen() {
+        settingsOverlay?.let { settingsView ->
+            val contentContainer = findViewById<FrameLayout>(R.id.content_container)
+            contentContainer.removeView(settingsView)
+            settingsOverlay = null
         }
     }
 }
