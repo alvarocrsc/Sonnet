@@ -69,26 +69,53 @@ class MainActivity : ComponentActivity() {
         super.onStop()
     }
 
-    private fun showHomeScreen() {
+    private fun showHomeScreen(preserveSettingsOverlay: Boolean = false) {
         val contentContainer = findViewById<FrameLayout>(R.id.content_container)
-        contentContainer.removeAllViews()
-        layoutInflater.inflate(R.layout.home, contentContainer, true)
+        if (preserveSettingsOverlay && settingsOverlay != null) {
+            // Remove only the underlying content, not the settings overlay
+            contentContainer.removeViewAt(0)
+            // Inflate new screen at index 0 (below settings overlay)
+            layoutInflater.inflate(R.layout.home, contentContainer, false).also {
+                contentContainer.addView(it, 0)
+            }
+        } else {
+            contentContainer.removeAllViews()
+            layoutInflater.inflate(R.layout.home, contentContainer, true)
+        }
         currentScreen = Screen.HOME
         updateBottomNavigation()
     }
     
-    private fun showStatsScreen() {
+    private fun showStatsScreen(preserveSettingsOverlay: Boolean = false) {
         val contentContainer = findViewById<FrameLayout>(R.id.content_container)
-        contentContainer.removeAllViews()
-        layoutInflater.inflate(R.layout.stats, contentContainer, true)
+        if (preserveSettingsOverlay && settingsOverlay != null) {
+            // Remove only the underlying content, not the settings overlay
+            contentContainer.removeViewAt(0)
+            // Inflate new screen at index 0 (below settings overlay)
+            layoutInflater.inflate(R.layout.stats, contentContainer, false).also {
+                contentContainer.addView(it, 0)
+            }
+        } else {
+            contentContainer.removeAllViews()
+            layoutInflater.inflate(R.layout.stats, contentContainer, true)
+        }
         currentScreen = Screen.STATS
         updateBottomNavigation()
     }
 
-    private fun showFriendsScreen() {
+    private fun showFriendsScreen(preserveSettingsOverlay: Boolean = false) {
         val contentContainer = findViewById<FrameLayout>(R.id.content_container)
-        contentContainer.removeAllViews()
-        layoutInflater.inflate(R.layout.friends, contentContainer, true)
+        if (preserveSettingsOverlay && settingsOverlay != null) {
+            // Remove only the underlying content, not the settings overlay
+            contentContainer.removeViewAt(0)
+            // Inflate new screen at index 0 (below settings overlay)
+            layoutInflater.inflate(R.layout.friends, contentContainer, false).also {
+                contentContainer.addView(it, 0)
+            }
+        } else {
+            contentContainer.removeAllViews()
+            layoutInflater.inflate(R.layout.friends, contentContainer, true)
+        }
         currentScreen = Screen.FRIENDS
         updateBottomNavigation()
     }
@@ -187,6 +214,38 @@ class MainActivity : ComponentActivity() {
         }
     }
     
+    private fun exitSettingsAndNavigateTo(navigationAction: () -> Unit) {
+        settingsOverlay?.let { settingsView ->
+            val contentContainer = findViewById<FrameLayout>(R.id.content_container)
+            
+            // Load the new target screen while preserving settings overlay
+            navigationAction()
+            
+            // Get the newly loaded screen (should be at index 0, settings at index 1)
+            val newContent = contentContainer.getChildAt(0)
+            
+            // Start the new screen at the left position (where profile was)
+            newContent?.translationX = -200f
+            
+            // Animate new screen moving to original position
+            newContent?.animate()
+                ?.translationX(0f)
+                ?.setDuration(300)
+                ?.start()
+            
+            // Animate settings slide out to right
+            settingsView.animate()
+                .translationX(settingsView.width.toFloat())
+                .setDuration(300)
+                .withEndAction {
+                    // Remove settings overlay after animation
+                    contentContainer.removeView(settingsView)
+                    settingsOverlay = null
+                }
+                .start()
+        } ?: navigationAction() // If no settings overlay, just navigate
+    }
+    
     private fun navigateToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -253,32 +312,39 @@ class MainActivity : ComponentActivity() {
         // Set up click listeners
         homeIcon?.setOnClickListener {
             if (currentScreen != Screen.HOME) {
-                // Close settings if open
-                closeSettingsIfOpen()
-                showHomeScreen()
+                if (currentScreen == Screen.SETTINGS) {
+                    // Animate settings closing, then show home screen
+                    exitSettingsAndNavigateTo { showHomeScreen(preserveSettingsOverlay = true) }
+                } else {
+                    showHomeScreen()
+                }
             }
         }
         
         statsIcon?.setOnClickListener {
             if (currentScreen != Screen.STATS) {
-                // Close settings if open
-                closeSettingsIfOpen()
-                showStatsScreen()
+                if (currentScreen == Screen.SETTINGS) {
+                    // Animate settings closing, then show stats screen
+                    exitSettingsAndNavigateTo { showStatsScreen(preserveSettingsOverlay = true) }
+                } else {
+                    showStatsScreen()
+                }
             }
         }
         
         discoverIcon?.setOnClickListener {
             if (currentScreen != Screen.FRIENDS) {
-                // Close settings if open
-                closeSettingsIfOpen()
-                showFriendsScreen()
+                if (currentScreen == Screen.SETTINGS) {
+                    // Animate settings closing, then show friends screen
+                    exitSettingsAndNavigateTo { showFriendsScreen(preserveSettingsOverlay = true) }
+                } else {
+                    showFriendsScreen()
+                }
             }
         }
         
         profileIcon?.setOnClickListener {
             if (currentScreen != Screen.PROFILE && currentScreen != Screen.SETTINGS) {
-                // Close settings if open
-                closeSettingsIfOpen()
                 showProfileScreen()
             } else if (currentScreen == Screen.SETTINGS) {
                 // If already in settings, close it to go back to profile
