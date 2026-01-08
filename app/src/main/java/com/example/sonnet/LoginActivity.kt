@@ -6,10 +6,16 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.lifecycle.lifecycleScope
+import com.example.sonnet.firebase.FirebaseManager
+import com.example.sonnet.spotify.SpotifyAuthRepository
 import com.example.sonnet.spotify.SpotifyConfig
+import com.example.sonnet.spotify.SpotifyRepository
+import kotlinx.coroutines.launch
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -63,22 +69,23 @@ class LoginActivity : ComponentActivity() {
                 code != null -> {
                     Log.d("LoginActivity", "Got authorization code: ${code.take(10)}...")
                     
-                    // In production, exchange code for token via backend
-                    // For now, store a mock token
-                    val mockToken = "spotify_token_${System.currentTimeMillis()}"
-                    TokenManager.saveToken(this, mockToken)
-                    
-                    Log.d("LoginActivity", "Token saved, navigating to MainActivity")
-                    
-                    // Clear intent data
-                    intent.data = null
-                    
-                    // Navigate to MainActivity
-                    navigateToMainActivity()
+                    // Exchange authorization code for access token
+                    lifecycleScope.launch {
+                        if (codeVerifier != null) {
+                            exchangeCodeAndFetchProfile(code, codeVerifier!!)
+                        } else {
+                            Log.e("LoginActivity", "Code verifier is null!")
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Authentication error: Missing code verifier",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 }
                 error != null -> {
                     Log.e("LoginActivity", "Auth error: $error")
-                    // Could show error UI here
+                    Toast.makeText(this, "Authentication failed: $error", Toast.LENGTH_LONG).show()
                 }
                 else -> {
                     Log.e("LoginActivity", "No code or error in callback")
@@ -140,5 +147,93 @@ class LoginActivity : ComponentActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+    }
+    
+    /**
+     * Exchange authorization code for access token and fetch user profile
+     */
+    private suspend fun exchangeCodeAndFetchProfile(code: String, codeVerifier: String) {
+        try {
+            // Exchange code for access token
+            Log.d("LoginActivity", "Exchanging authorization code for access token...")
+            val tokenResponse = SpotifyAuthRepository.getInstance().exchangeCodeForToken(code, codeVerifier)
+            
+            if (tokenResponse != null) {
+                val accessToken = tokenResponse.access_token
+                Log.d("LoginActivity", "Access token received: ${accessToken.take(20)}...")
+                
+                // Save token
+                TokenManager.saveToken(this@LoginActivity, accessToken)
+                
+                // Fetch and save user profile
+                fetchAndSaveUserProfile(accessToken)
+            } else {
+                Log.e("LoginActivity", "Failed to exchange code for token")
+                runOnUiThread {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Failed to authenticate with Spotify",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("LoginActivity", "Error in exchangeCodeAndFetchProfile: ${e.message}", e)
+            runOnUiThread {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Authentication error: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+    
+    /**
+     * Fetch user profile from Spotify API and save to Firebase
+     */
+    private suspend fun fetchAndSaveUserProfile(accessToken: String) {
+        try {
+            // Fetch user profile from Spotify
+            val spotifyUser = SpotifyRepository.getInstance().fetchUserProfile(accessToken)
+            
+            if (spotifyUser != null) {
+                // Save to Firebase
+                val success = FirebaseManager.getInstance().saveUser(spotifyUser)
+                
+                if (success) {
+                    Log.d("LoginActivity", "User profile saved to Firebase: ${spotifyUser.displayName}")
+                    // Save user ID for future reference
+                    TokenManager.saveUserId(this@LoginActivity, spotifyUser.id)
+                } else {
+                    Log.e("LoginActivity", "Failed to save user profile to Firebase")
+                }
+                
+                // Navigate to MainActivity regardless of Firebase save result
+                runOnUiThread {
+                    // Clear intent data
+                    intent.data = null
+                    navigateToMainActivity()
+                }
+            } else {
+                Log.e("LoginActivity", "Failed to fetch user profile from Spotify")
+                runOnUiThread {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Failed to fetch user profile. Please try again.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("LoginActivity", "Error in fetchAndSaveUserProfile: ${e.message}", e)
+            runOnUiThread {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Error: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 }
