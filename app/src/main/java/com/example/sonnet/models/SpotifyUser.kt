@@ -8,31 +8,31 @@ import com.google.firebase.firestore.PropertyName
  */
 data class SpotifyUser(
     @PropertyName("id")
-    val id: String = "",
+    var id: String = "",
     
     @PropertyName("display_name")
-    val displayName: String = "",
+    var displayName: String = "",
     
     @PropertyName("email")
-    val email: String? = null,
+    var email: String? = null,
     
     @PropertyName("country")
-    val country: String? = null,
+    var country: String? = null,
     
     @PropertyName("product")
-    val product: String? = null, // "free", "premium", etc.
+    var product: String? = null, // "free", "premium", etc.
     
     @PropertyName("profile_image_url")
-    val profileImageUrl: String? = null,
+    var profileImageUrl: String? = null,
     
     @PropertyName("followers")
-    val followers: Int = 0,
+    var followers: Int = 0,
     
     @PropertyName("created_at")
-    val createdAt: Long = System.currentTimeMillis(),
+    var createdAt: Long = System.currentTimeMillis(),
     
     @PropertyName("last_updated")
-    val lastUpdated: Long = System.currentTimeMillis()
+    var lastUpdated: Long = System.currentTimeMillis()
 ) {
     // No-argument constructor required for Firebase Firestore
     constructor() : this("", "", null, null, null, null, 0, 0, 0)

@@ -91,4 +91,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    
+    // Glide for image loading in XML layouts
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }
