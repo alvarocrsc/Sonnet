@@ -10,10 +10,18 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.example.sonnet.firebase.FirebaseManager
+import com.example.sonnet.models.SpotifyUser
 import com.example.sonnet.spotify.SpotifyConfig
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     
@@ -21,6 +29,7 @@ class MainActivity : ComponentActivity() {
     private var previousScreen = Screen.HOME
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private var settingsOverlay: View? = null
+    private var currentUser: SpotifyUser? = null
     
     enum class Screen {
         HOME,
@@ -49,6 +58,9 @@ class MainActivity : ComponentActivity() {
         
         // Set the main container layout with fixed bottom bar
         setContentView(R.layout.activity_main)
+        
+        // Load user data
+        loadUserData()
         
         // Set up bottom navigation
         setupBottomNavigation()
@@ -101,6 +113,11 @@ class MainActivity : ComponentActivity() {
         }
         currentScreen = Screen.STATS
         updateBottomNavigation()
+        
+        // Load profile picture for stats screen
+        findViewById<ImageView>(R.id.profile_picture_stats)?.let { imageView ->
+            loadProfilePicture(imageView, currentUser?.profileImageUrl)
+        }
     }
 
     private fun showFriendsScreen(preserveSettingsOverlay: Boolean = false) {
@@ -127,6 +144,11 @@ class MainActivity : ComponentActivity() {
         currentScreen = Screen.PROFILE
         updateBottomNavigation()
         
+        // Load profile picture for profile screen
+        profileView.findViewById<ImageView>(R.id.profile_picture)?.let { imageView ->
+            loadProfilePicture(imageView, currentUser?.profileImageUrl)
+        }
+        
         // Set up settings button click listener
         profileView.findViewById<View>(R.id.settings_button)?.setOnClickListener {
             showSettingsScreen()
@@ -150,6 +172,11 @@ class MainActivity : ComponentActivity() {
         
         // Add settings view as overlay
         contentContainer.addView(settingsView)
+        
+        // Load profile picture for settings screen
+        settingsView.findViewById<ImageView>(R.id.settings_profile_picture)?.let { imageView ->
+            loadProfilePicture(imageView, currentUser?.profileImageUrl)
+        }
         
         // Set up back button click listener
         settingsView.findViewById<View>(R.id.back_button)?.setOnClickListener {
@@ -358,6 +385,68 @@ class MainActivity : ComponentActivity() {
             val contentContainer = findViewById<FrameLayout>(R.id.content_container)
             contentContainer.removeView(settingsView)
             settingsOverlay = null
+        }
+    }
+    
+    private fun loadUserData() {
+        val userId = TokenManager.getUserId(this)
+        if (userId != null) {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val user = FirebaseManager.getInstance().getUser(userId)
+                    currentUser = user
+                    withContext(Dispatchers.Main) {
+                        // Update all profile pictures once data is loaded
+                        updateAllProfilePictures()
+                    }
+                } catch (e: Exception) {
+                    Log.e("MainActivity", "Failed to load user data", e)
+                }
+            }
+        }
+    }
+    
+    private fun updateAllProfilePictures() {
+        val profileImageUrl = currentUser?.profileImageUrl
+        
+        // Update menu bar profile icon
+        findViewById<ImageView>(R.id.profile_icon)?.let { imageView ->
+            loadProfilePicture(imageView, profileImageUrl)
+        }
+        
+        // Update profile screen picture (if currently shown)
+        if (currentScreen == Screen.PROFILE) {
+            findViewById<ImageView>(R.id.profile_picture)?.let { imageView ->
+                loadProfilePicture(imageView, profileImageUrl)
+            }
+        }
+        
+        // Update stats screen picture (if currently shown)
+        if (currentScreen == Screen.STATS) {
+            findViewById<ImageView>(R.id.profile_picture_stats)?.let { imageView ->
+                loadProfilePicture(imageView, profileImageUrl)
+            }
+        }
+
+        // Update settings picture (if currently shown)
+        if (currentScreen == Screen.SETTINGS) {
+            findViewById<ImageView>(R.id.settings_profile_picture)?.let { imageView ->
+                loadProfilePicture(imageView, profileImageUrl)
+            }
+        }
+    }
+    
+    private fun loadProfilePicture(imageView: ImageView, url: String?) {
+        if (url != null && url.isNotEmpty()) {
+            Glide.with(this)
+                .load(url)
+                .transform(CircleCrop())
+                .placeholder(R.drawable.linkin_park)  // Fallback while loading
+                .error(R.drawable.linkin_park)  // Fallback if error
+                .into(imageView)
+        } else {
+            // No URL, use default
+            imageView.setImageResource(R.drawable.linkin_park)
         }
     }
 }
