@@ -1,0 +1,250 @@
+package com.example.sonnet.firebase
+
+import android.util.Log
+import com.example.sonnet.models.ListeningHistory
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import kotlinx.coroutines.tasks.await
+
+/**
+ * Manager class to handle Firebase Firestore operations for listening history
+ * Uses subcollection structure: users/{userId}/listening_history/{docId}
+ */
+class ListeningDataManager private constructor() {
+    
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    
+    companion object {
+        private const val TAG = "ListeningDataManager"
+        private const val BATCH_SIZE = 500 // Firestore batch write limit
+        
+        @Volatile
+        private var instance: ListeningDataManager? = null
+        
+        fun getInstance(): ListeningDataManager {
+            return instance ?: synchronized(this) {
+                instance ?: ListeningDataManager().also { instance = it }
+            }
+        }
+    }
+    
+    /**
+     * Get listening history subcollection reference for a user
+     */
+    private fun getListeningHistoryCollection(userId: String) =
+        db.collection("users").document(userId).collection("listening_history")
+    
+    /**
+     * Save a single listening history entry to Firestore
+     * @param userId User's Spotify ID
+     * @param history ListeningHistory entry to save
+     * @return true if successful, false otherwise
+     */
+    suspend fun saveListeningHistory(userId: String, history: ListeningHistory): Boolean {
+        return try {
+            getListeningHistoryCollection(userId).documen).set(history).await()
+            Log.d(TAG, "Listening history ${history.id} saved successfully")
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error saving listening history: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * Batch save multiple listening history entries
+     * Uses Firebase batch writes (max 500 operations per batch)
+     * 
+     * @param userId User's Spotify ID
+     * @param historyList List of ListeningHistory entries to save
+     * @param onProgress Callback to report progress (current, total)
+     * @return true if all batches successful, false otherwise
+     */
+    suspend fun batchSaveListeningHistory(
+        userId: String,
+        historyList: List<ListeningHistory>,
+        onProgress: ((Int, Int) -> Unit)? = null
+    ): Boolean {
+        return try {
+            val total = historyList.size
+            var saved = 0
+            val collection = getListeningHistoryCollection(userId)
+            
+            // Split into chunks of BATCH_SIZE (500)
+            historyList.chunked(BATCH_SIZE).forEach { chunk ->
+                val batch = db.batch()
+                
+                chunk.forEach { history ->
+                    val docRef = collection.document(history.id)
+                    batch.set(docRef, history)
+                }
+                
+                // Commit batch
+                batch.commit().await()
+                
+                saved += chunk.size
+                onProgress?.invoke(saved, total)
+                
+                Log.d(TAG, "Batch saved: $saved/$total entries")
+            }
+            
+            Log.d(TAG, "All listening history saved successfully: $total entries")
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error batch saving listening history: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * Get recent listening history for a user
+     * @param userId User's Spotify ID
+     * @param limit Maximum number of entries to retrieve
+     * @return List of ListeningHistory entries, ordered by playedAt (most recent first)
+     */
+    suspend fun getRecentListeningHistory(
+        userId: String,
+        limit: Int = 50
+    ): List<ListeningHistory> {
+        return try {
+            val snapshot = getListeningHistoryCollection(userId)
+                .orderBy("playedAt", Query.Direction.DESCENDING)
+                .limit(limit.toLong())
+                .get()
+                .await()
+            
+            val history = snapshot.documents.mapNotNull { document ->
+                document.toObject(ListeningHistory::class.java)
+            }
+            
+            Log.d(TAG, "Retrieved ${history.size} recent listening entries for user $userId")
+            history
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting recent listening history: ${e.message}", e)
+            emptyList()
+        }
+    }
+    
+    /**
+     * Get listening history since a specific timestamp
+     * Useful for syncing with Spotify API (only get new plays)
+     * 
+     * @param userId User's Spotify ID
+     * @param sinceTimestamp Get all plays after this timestamp (milliseconds)
+     * @return List of ListeningHistory entries after the timestamp
+     */
+    suspend fun getListeningHistorySince(
+        userId: String,
+        sinceTimestamp: Long
+    ): List<ListeningHistory> {
+        return try {
+            val snapshot = getListeningHistoryCollection(userId)
+                .whereGreaterThan("playedAt", com.google.firebase.Timestamp(sinceTimestamp / 1000, 0))
+                .orderBy("playedAt", Query.Direction.DESCENDING)
+                .get()
+                .await()
+            
+            val history = snapshot.documents.mapNotNull { document ->
+                document.toObject(ListeningHistory::class.java)
+            }
+            
+            Log.d(TAG, "Retrieved ${history.size} listening entries since timestamp for user $userId")
+            history
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting listening history since timestamp: ${e.message}", e)
+            emptyList()
+        }
+    }
+    
+    /**
+     * Get the timestamp of the user's most recent play
+     * Useful for determining the starting point for API sync
+     * 
+     * @param userId User's Spotify ID
+     * @return Timestamp in milliseconds, or null if no history found
+     */
+    suspend fun getLastPlayTimestamp(userId: String): Long? {
+        return try {
+            val snapshot = getListeningHistoryCollection(userId)
+                .orderBy("playedAt", Query.Direction.DESCENDING)
+                .limit(1)
+                .get()
+                .await()
+            
+            val lastPlay = snapshot.documents.firstOrNull()?.toObject(ListeningHistory::class.java)
+            val timestamp = lastPlay?.playedAt?.toDate()?.time
+            
+            Log.d(TAG, "Last play timestamp for user $userId: $timestamp")
+            timestamp
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting last play timestamp: ${e.message}", e)
+            null
+        }
+    }
+    
+    /**
+     * Get total listening history count for a user
+     * @param userId User's Spotify ID
+     * @return Total number of listening entries
+     */
+    suspend fun getListeningHistoryCount(userId: String): Int {
+        return try {
+            val snapshot = getListeningHistoryCollection(userId)
+                .get()
+                .await()
+            
+            val count = snapshot.size()
+            Log.d(TAG, "Total listening history count for user $userId: $count")
+            count
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting listening history count: ${e.message}", e)
+            0
+        }
+    }
+    
+    /**
+     * Check if a listening entry already exists for preventing duplicate imports
+     * 
+     * @param userId User's Spotify ID
+     * @param historyId The ID of the listening history entry
+     * @return true if exists, false otherwise
+     */
+    suspend fun listeningHistoryExists(userId: String, historyId: String): Boolean {
+        return try {
+            val document = getListeningHistoryCollection(userId).document(historyId).get().await()
+            document.exists()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error checking listening history existence: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * Delete all listening history for a user
+     * 
+     * @param userId User's Spotify ID
+     * @return true if successful, false otherwise
+     */
+    suspend fun deleteUserListeningHistory(userId: String): Boolean {
+        return try {
+            val snapshot = getListeningHistoryCollection(userId)
+                .get()
+                .await()
+            
+            // Delete in batches
+            snapshot.documents.chunked(BATCH_SIZE).forEach { chunk ->
+                val batch = db.batch()
+                chunk.forEach { document ->
+                    batch.delete(document.reference)
+                }
+                batch.commit().await()
+            }
+            
+            Log.d(TAG, "Deleted all listening history for user $userId (${snapshot.size()} documents)")
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error deleting user listening history: ${e.message}", e)
+            false
+        }
+    }
+}

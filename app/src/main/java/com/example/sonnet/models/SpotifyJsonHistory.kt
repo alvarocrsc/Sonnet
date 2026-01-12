@@ -43,8 +43,7 @@ fun SpotifyJsonHistory.toListeningHistory(userId: String): ListeningHistory? {
     val timestampMs = instant.toEpochMilli()
 
     return ListeningHistory(
-        id = generateListeningHistoryId(userId, timestampMs),
-        userId = userId,
+        id = generateListeningHistoryId(timestampMs),
         playedAt = Timestamp(instant.epochSecond, instant.nano),
         durationMs = msPlayed.toLong(),
         trackId = trackId,
@@ -55,6 +54,10 @@ fun SpotifyJsonHistory.toListeningHistory(userId: String): ListeningHistory? {
     )
 }
 
-fun generateListeningHistoryId(userId: String, timestamp: Long): String {
-    return "${userId}_${timestamp}_${UUID.randomUUID().toString().take(8)}"
+/**
+ * Generate document ID for subcollection structure
+ * Format: timestamp_randomId (no userId prefix needed)
+ */
+fun generateListeningHistoryId(timestamp: Long): String {
+    return "${timestamp}_${UUID.randomUUID().toString().take(8)}"
 }

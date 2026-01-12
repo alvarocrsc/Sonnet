@@ -3,9 +3,8 @@ package com.example.sonnet.models
 import com.google.firebase.Timestamp
 
 data class ListeningHistory(
-    // Indexation for Firebase and User Data
+    // Document ID (timestamp_randomId)
     val id: String = "",
-    val userId: String = "",
 
     // Listening Data
     val playedAt: Timestamp = Timestamp.now(),
