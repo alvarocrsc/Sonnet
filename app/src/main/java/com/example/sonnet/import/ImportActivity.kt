@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +51,10 @@ class ImportActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+        window.decorView.setBackgroundColor(android.graphics.Color.parseColor("#121212"))
         setContentView(R.layout.activity_import)
 
         initializeViews()
