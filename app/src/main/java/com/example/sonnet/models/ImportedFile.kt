@@ -13,7 +13,8 @@ data class ImportedFile(
     val entryCount: Int = 0,           // Total entries in JSON
     val validEntryCount: Int = 0,      // Entries that pass filters (>30s, has trackName)
     val dateRange: String = "",         // e.g., "2019-01-01 to 2019-12-31"
-    val status: ImportStatus = ImportStatus.PENDING
+    val status: ImportStatus = ImportStatus.PENDING,
+    val sourceFileId: String = ""       // Unique ID for this file, used to delete its data
 )
 
 /**

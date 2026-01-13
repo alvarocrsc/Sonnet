@@ -17,5 +17,6 @@ data class ListeningHistory(
     val albumName: String? = null,
 
     // Source Data
-    val source: String = "import"
+    val source: String = "import",
+    val sourceFileId: String? = null  // Unique ID for the imported file, used for deletion
 )

@@ -188,6 +188,10 @@ class MainActivity : ComponentActivity() {
             navigateToLogin()
         }
         
+        settingsView.findViewById<View>(R.id.import_files_item)?.setOnClickListener {
+            startActivity(Intent(this, com.example.sonnet.import.ImportActivity::class.java))
+        }
+        
         // Wait for layout to complete, then animate
         settingsView.viewTreeObserver.addOnGlobalLayoutListener(object : android.view.ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {

@@ -42,7 +42,7 @@ class ListeningDataManager private constructor() {
      */
     suspend fun saveListeningHistory(userId: String, history: ListeningHistory): Boolean {
         return try {
-            getListeningHistoryCollection(userId).documen).set(history).await()
+            getListeningHistoryCollection(userId).document(history.id).set(history).await()
             Log.d(TAG, "Listening history ${history.id} saved successfully")
             true
         } catch (e: Exception) {
@@ -244,6 +244,43 @@ class ListeningDataManager private constructor() {
             true
         } catch (e: Exception) {
             Log.e(TAG, "Error deleting user listening history: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * Delete all listening history entries from a specific imported file
+     * 
+     * @param userId User ID (for subcollection path)
+     * @param sourceFileId Unique ID of the file to delete entries from
+     * @return true if successful, false otherwise
+     */
+    suspend fun deleteListeningHistoryByFileId(userId: String, sourceFileId: String): Boolean {
+        return try {
+            val snapshot = getListeningHistoryCollection(userId)
+                .whereEqualTo("sourceFileId", sourceFileId)
+                .get()
+                .await()
+            
+            if (snapshot.isEmpty) {
+                Log.d(TAG, "No documents found with sourceFileId: $sourceFileId")
+                return true
+            }
+            
+            Log.d(TAG, "Deleting ${snapshot.size()} documents with sourceFileId: $sourceFileId")
+            
+            snapshot.documents.chunked(BATCH_SIZE).forEach { chunk ->
+                val batch = db.batch()
+                chunk.forEach { document ->
+                    batch.delete(document.reference)
+                }
+                batch.commit().await()
+            }
+            
+            Log.d(TAG, "Successfully deleted ${snapshot.size()} documents from file $sourceFileId")
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error deleting listening history by fileId: ${e.message}", e)
             false
         }
     }

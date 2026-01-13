@@ -77,6 +77,9 @@ class SpotifyJsonImporter(private val context: Context) {
             
             Log.d(TAG, "File metadata: $fileName - ${entries.size} entries (${validEntries.size} valid), $dateRange")
             
+            // Generate unique file ID
+            val fileId = java.util.UUID.randomUUID().toString()
+            
             ImportedFile(
                 uri = uri,
                 fileName = fileName,
@@ -84,7 +87,8 @@ class SpotifyJsonImporter(private val context: Context) {
                 entryCount = entries.size,
                 validEntryCount = validEntries.size,
                 dateRange = dateRange,
-                status = ImportStatus.PENDING
+                status = ImportStatus.PENDING,
+                sourceFileId = fileId
             )
         } catch (e: Exception) {
             Log.e(TAG, "Error getting file metadata: ${e.message}", e)
@@ -189,7 +193,7 @@ class SpotifyJsonImporter(private val context: Context) {
             
             // Step 3: Convert to ListeningHistory (filtering happens in toListeningHistory)
             onProgress(0, file.validEntryCount, "Converting ${file.fileName}...")
-            val historyList = entries.mapNotNull { it.toListeningHistory(userId) }
+            val historyList = entries.mapNotNull { it.toListeningHistory(userId, file.sourceFileId) }
             
             if (historyList.isEmpty()) {
                 return@withContext SingleFileImportResult(

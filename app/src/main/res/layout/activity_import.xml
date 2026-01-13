@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#121212"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:saveEnabled="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/import_files_screen"
@@ -70,7 +71,7 @@
 
             <ImageView
                 android:id="@+id/upload_icon"
-                android:layout_width="24dp"
+                android:layout_width="15dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_share_light"
                 app:tint="#FFFFFF"
@@ -84,11 +85,11 @@
                 android:id="@+id/upload_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:fontFamily="@font/geist_medium"
+                android:layout_marginStart="13dp"
+                android:fontFamily="@font/geist_bold"
                 android:text="Upload files"
                 android:textColor="#FFFFFF"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:letterSpacing="-0.025"
                 app:layout_constraintStart_toEndOf="@id/upload_icon"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +102,7 @@
             android:id="@+id/imported_files_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="28dp"
             android:fontFamily="@font/geist_black"
             android:text="Imported files"
             android:textColor="#FFFFFF"
@@ -152,7 +153,7 @@
             android:id="@+id/empty_state_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/geist_regular"
             android:text="No files imported yet"
             android:textColor="#A5A5A5"
@@ -160,49 +161,7 @@
             android:letterSpacing="-0.03"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_top" />
-
-        <!-- Import Button (shown when files are selected) -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/import_button"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_import_button"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imported_files_recycler">
-
-            <ProgressBar
-                android:id="@+id/import_progress_bar"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:visibility="gone"
-                android:indeterminateTint="#FFFFFF"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/import_button_text"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_chainStyle="packed" />
-
-            <TextView
-                android:id="@+id/import_button_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/geist_medium"
-                android:text="Import files"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:letterSpacing="-0.025"
-                app:layout_constraintStart_toEndOf="@id/import_progress_bar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

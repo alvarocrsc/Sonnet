@@ -59,6 +59,13 @@
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sonnet" />
+        
+        <!-- Import Activity - File import screen -->
+        <activity
+            android:name=".import.ImportActivity"
+            android:exported="false"
+            android:label="Import Files"
+            android:theme="@style/Theme.Sonnet" />
     </application>
 
 </manifest>
