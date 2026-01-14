@@ -12,6 +12,8 @@ import com.example.sonnet.adapters.TopAlbumsAdapter
 import com.example.sonnet.adapters.TopArtistsAdapter
 import com.example.sonnet.adapters.TopTracksAdapter
 import com.example.sonnet.firebase.StatisticsManager
+import com.example.sonnet.utils.DisplayNameHelper
+import com.example.sonnet.utils.FilterHelper
 import com.example.sonnet.models.TimeRange
 import com.example.sonnet.models.stats.UserStats
 import com.example.sonnet.models.stats.ArtistStats
@@ -32,6 +34,10 @@ class ProfileManager(
     private lateinit var topArtistsAdapter: TopArtistsAdapter
     private lateinit var topAlbumsAdapter: TopAlbumsAdapter
     private lateinit var topTracksAdapter: TopTracksAdapter
+    
+    // User info UI elements
+    private val username: TextView = profileView.findViewById(R.id.username)
+    private val handle: TextView = profileView.findViewById(R.id.handle)
     
     // UI elements
     private val filter7Days: TextView = profileView.findViewById(R.id.filter_7days)
@@ -67,6 +73,7 @@ class ProfileManager(
     fun initialize(userId: String) {
         Log.d(TAG, "Initializing profile for user: $userId")
         currentUserId = userId
+        updateDisplayName(userId)
         setupFilterButtons(userId)
         setupRecyclerView()
         
@@ -84,6 +91,21 @@ class ProfileManager(
         if (currentUserId.isNotEmpty()) {
             Log.d(TAG, "Refreshing profile for user: $currentUserId")
             loadStatistics(currentUserId, currentTimeRange)
+        }
+    }
+    
+    private fun updateDisplayName(userId: String) {
+        lifecycleScope.launch {
+            // Get display name using helper (handles caching and Firebase fallback)
+            val displayName = DisplayNameHelper.getDisplayName(
+                context = profileView.context,
+                userId = userId,
+                defaultName = "User"
+            )
+            
+            // Update username and handle
+            username.text = displayName
+            handle.text = "@$displayName"
         }
     }
     
@@ -111,30 +133,14 @@ class ProfileManager(
     
     private fun selectFilter(timeRange: TimeRange) {
         currentTimeRange = timeRange
-        
-        // Reset all filters to unselected state
-        filter7Days.setBackgroundResource(R.drawable.bg_filter_unselected)
-        filter7Days.setTextColor(profileView.context.getColor(android.R.color.white))
-        
-        filter30Days.setBackgroundResource(R.drawable.bg_filter_unselected)
-        filter30Days.setTextColor(profileView.context.getColor(android.R.color.white))
-        
-        filter6Months.setBackgroundResource(R.drawable.bg_filter_unselected)
-        filter6Months.setTextColor(profileView.context.getColor(android.R.color.white))
-        
-        filterAllTime.setBackgroundResource(R.drawable.bg_filter_unselected)
-        filterAllTime.setTextColor(profileView.context.getColor(android.R.color.white))
-        
-        // Set selected filter
-        val selectedTextView = when(timeRange) {
-            TimeRange.WEEK -> filter7Days
-            TimeRange.MONTH -> filter30Days
-            TimeRange.SIX_MONTHS -> filter6Months
-            TimeRange.ALL_TIME -> filterAllTime
-        }
-        
-        selectedTextView.setBackgroundResource(R.drawable.bg_filter_selected)
-        selectedTextView.setTextColor(profileView.context.getColor(R.color.accent_red))
+        FilterHelper.updateFilterSelection(
+            context = profileView.context,
+            timeRange = timeRange,
+            filter7Days = filter7Days,
+            filter30Days = filter30Days,
+            filter6Months = filter6Months,
+            filterAllTime = filterAllTime
+        )
     }
     
     private fun setupRecyclerView() {

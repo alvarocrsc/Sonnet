@@ -14,6 +14,7 @@ object TokenManager {
     private const val KEY_REFRESH_TOKEN = "refresh_token"
     private const val KEY_TOKEN_EXPIRY = "token_expiry"
     private const val KEY_USER_ID = "user_id"
+    private const val KEY_DISPLAY_NAME = "display_name"
     
     private fun getPrefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -58,6 +59,16 @@ object TokenManager {
         return getPrefs(context).getString(KEY_USER_ID, null)
     }
     
+    fun saveDisplayName(context: Context, displayName: String) {
+        getPrefs(context).edit()
+            .putString(KEY_DISPLAY_NAME, displayName)
+            .apply()
+    }
+    
+    fun getDisplayName(context: Context): String? {
+        return getPrefs(context).getString(KEY_DISPLAY_NAME, null)
+    }
+    
     fun hasValidToken(context: Context): Boolean {
         return getToken(context) != null
     }
@@ -68,6 +79,7 @@ object TokenManager {
             .remove(KEY_REFRESH_TOKEN)
             .remove(KEY_TOKEN_EXPIRY)
             .remove(KEY_USER_ID)
+            .remove(KEY_DISPLAY_NAME)
             .apply()
     }
 }

@@ -12,7 +12,18 @@ import kotlinx.coroutines.tasks.await
  */
 class ListeningDataManager private constructor() {
     
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance().apply {
+        // Enable offline persistence for instant loading from cache
+        try {
+            firestoreSettings = com.google.firebase.firestore.FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .setCacheSizeBytes(100 * 1024 * 1024) // 100MB cache (reasonable limit)
+                .build()
+        } catch (e: Exception) {
+            // Persistence already enabled or other error
+            Log.d(TAG, "Firestore settings: ${e.message}")
+        }
+    }
     
     companion object {
         private const val TAG = "ListeningDataManager"
@@ -35,6 +46,13 @@ class ListeningDataManager private constructor() {
         db.collection("users").document(userId).collection("listening_history")
     
     /**
+     * Get recent tracks collection reference for a user
+     * This is a small, optimized collection that stores only the latest 10 tracks
+     */
+    private fun getRecentTracksCollection(userId: String) =
+        db.collection("users").document(userId).collection("recent_tracks")
+    
+    /**
      * Save a single listening history entry to Firestore
      * @param userId User's Spotify ID
      * @param history ListeningHistory entry to save
@@ -44,9 +62,46 @@ class ListeningDataManager private constructor() {
         return try {
             getListeningHistoryCollection(userId).document(history.id).set(history).await()
             Log.d(TAG, "Listening history ${history.id} saved successfully")
+            
+            // Also update recent_tracks collection for fast loading
+            updateRecentTrack(userId, history)
+            
             true
         } catch (e: Exception) {
             Log.e(TAG, "Error saving listening history: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * Update the recent_tracks collection with a new track
+     * Maintains only the latest 10 tracks for fast querying
+     */
+    suspend fun updateRecentTrack(userId: String, history: ListeningHistory): Boolean {
+        return try {
+            // Add the new track with timestamp as ID for easy ordering
+            val trackId = history.playedAt.toDate().time.toString()
+            getRecentTracksCollection(userId)
+                .document(trackId)
+                .set(history)
+                .await()
+            
+            // Clean up old tracks (keep only latest 10)
+            val snapshot = getRecentTracksCollection(userId)
+                .orderBy("playedAt", Query.Direction.DESCENDING)
+                .get()
+                .await()
+            
+            // Delete excess tracks
+            if (snapshot.size() > 10) {
+                snapshot.documents.drop(10).forEach { doc ->
+                    doc.reference.delete()
+                }
+            }
+            
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error updating recent track: ${e.message}", e)
             false
         }
     }
@@ -288,6 +343,89 @@ class ListeningDataManager private constructor() {
             true
         } catch (e: Exception) {
             Log.e(TAG, "Error deleting listening history by fileId: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * Get recently played tracks for home screen display (OPTIMIZED)
+     * Uses dedicated recent_tracks collection for instant loading from cache
+     * Falls back to listening_history if recent_tracks is empty
+     * @param userId User's Spotify ID
+     * @param limit Number of tracks to return (default 5)
+     * @return List of RecentlyPlayedTrack entries
+     */
+    suspend fun getRecentlyPlayedTracks(
+        userId: String,
+        limit: Int = 5
+    ): List<com.example.sonnet.models.RecentlyPlayedTrack> {
+        return try {
+            // Try to get from recent_tracks collection first (fast!)
+            val snapshot = getRecentTracksCollection(userId)
+                .orderBy("playedAt", Query.Direction.DESCENDING)
+                .limit(limit.toLong())
+                .get()
+                .await()
+            
+            val recentTracks = snapshot.documents.mapNotNull { document ->
+                document.toObject(ListeningHistory::class.java)
+            }
+            
+            // If recent_tracks collection is empty, fall back to listening_history
+            val history = if (recentTracks.isEmpty()) {
+                Log.d(TAG, "recent_tracks empty, falling back to listening_history")
+                getRecentListeningHistory(userId, limit)
+            } else {
+                Log.d(TAG, "Loaded ${recentTracks.size} tracks from recent_tracks collection")
+                recentTracks
+            }
+            
+            history.map { entry ->
+                com.example.sonnet.models.RecentlyPlayedTrack(
+                    trackName = entry.trackName ?: "Unknown Track",
+                    artistName = entry.artistName ?: "Unknown Artist",
+                    albumName = entry.albumName ?: "",
+                    playedAt = entry.playedAt.toDate().time,
+                    imageUrl = null // Will be fetched from Spotify API by adapter
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting recently played tracks: ${e.message}", e)
+            emptyList()
+        }
+    }
+    
+    /**
+     * Migrate existing listening history to recent_tracks collection
+     * Call this once to populate recent_tracks for existing users
+     * Returns true if migration was successful or already completed
+     */
+    suspend fun migrateToRecentTracks(userId: String): Boolean {
+        return try {
+            // Check if recent_tracks already has enough data (at least 5 tracks)
+            val existingSnapshot = getRecentTracksCollection(userId).limit(5).get().await()
+            if (existingSnapshot.size() >= 5) {
+                return true // Already migrated
+            }
+            
+            Log.d(TAG, "Starting migration for user $userId (current tracks: ${existingSnapshot.size()})")
+            
+            // Get latest 10 tracks from listening_history
+            val recentHistory = getRecentListeningHistory(userId, 10)
+            
+            if (recentHistory.isEmpty()) {
+                return true // No data to migrate
+            }
+            
+            // Populate recent_tracks
+            recentHistory.forEach { history ->
+                updateRecentTrack(userId, history)
+            }
+            
+            Log.d(TAG, "Migration complete: ${recentHistory.size} tracks")
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Migration error: ${e.message}", e)
             false
         }
     }

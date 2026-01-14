@@ -214,8 +214,9 @@ class LoginActivity : ComponentActivity() {
                 
                 if (success) {
                     Log.d("LoginActivity", "User profile saved to Firebase: ${spotifyUser.displayName}")
-                    // Save user ID for future reference
+                    // Save user ID and display name for future reference
                     TokenManager.saveUserId(this@LoginActivity, spotifyUser.id)
+                    TokenManager.saveDisplayName(this@LoginActivity, spotifyUser.displayName)
                 } else {
                     Log.e("LoginActivity", "Failed to save user profile to Firebase")
                 }

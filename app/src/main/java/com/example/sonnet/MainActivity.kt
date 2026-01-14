@@ -32,6 +32,9 @@ class MainActivity : ComponentActivity() {
     private var settingsOverlay: View? = null
     private var currentUser: SpotifyUser? = null
     private var profileManager: com.example.sonnet.profile.ProfileManager? = null
+    private var statsManager: com.example.sonnet.stats.StatsManager? = null
+    private var homeManager: com.example.sonnet.home.HomeManager? = null
+    private var isInitialLoad = true
     
     enum class Screen {
         HOME,
@@ -80,9 +83,26 @@ class MainActivity : ComponentActivity() {
     
     override fun onResume() {
         super.onResume()
+        // Skip refresh on initial load (data already loading from onCreate)
+        if (isInitialLoad) {
+            isInitialLoad = false
+            return
+        }
+        
         // Refresh profile if we're on the profile screen
         if (currentScreen == Screen.PROFILE) {
             profileManager?.refresh()
+        }
+        // Refresh stats if we're on the stats screen
+        if (currentScreen == Screen.STATS) {
+            statsManager?.refresh()
+        }
+        // Refresh home if we're on the home screen
+        if (currentScreen == Screen.HOME) {
+            val userId = TokenManager.getUserId(this)
+            if (userId != null) {
+                homeManager?.refresh(userId)
+            }
         }
     }
 
@@ -106,6 +126,15 @@ class MainActivity : ComponentActivity() {
         }
         currentScreen = Screen.HOME
         updateBottomNavigation()
+        
+        // Always reinitialize homeManager since we inflated a new view
+        val userId = TokenManager.getUserId(this)
+        if (userId != null) {
+            val homeView = contentContainer.getChildAt(0)
+            homeManager = com.example.sonnet.home.HomeManager(homeView, lifecycleScope).apply {
+                initialize(userId)
+            }
+        }
     }
     
     private fun showStatsScreen(preserveSettingsOverlay: Boolean = false) {
@@ -127,6 +156,15 @@ class MainActivity : ComponentActivity() {
         // Load profile picture for stats screen
         findViewById<ImageView>(R.id.profile_picture_stats)?.let { imageView ->
             loadProfilePicture(imageView, currentUser?.profileImageUrl)
+        }
+        
+        // Set up stats with statistics
+        val userId = TokenManager.getUserId(this)
+        if (userId != null) {
+            val statsView = contentContainer.getChildAt(0)
+            statsManager = com.example.sonnet.stats.StatsManager(statsView, lifecycleScope).apply {
+                initialize(userId)
+            }
         }
     }
 
@@ -316,19 +354,12 @@ class MainActivity : ComponentActivity() {
         SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
             override fun onConnected(appRemote: SpotifyAppRemote) {
                 spotifyAppRemote = appRemote
-                Log.d("MainActivity", "App Remote Connected! Showing home screen...")
-                
-                // Show home screen
-                showHomeScreen()
+                Log.d("MainActivity", "App Remote Connected!")
             }
 
             override fun onFailure(throwable: Throwable) {
                 Log.e("MainActivity", "App Remote connection failed: ${throwable.message}", throwable)
-                
-                // If App Remote fails, still show home screen
-                // (App Remote auth can be done later through Spotify app)
-                Log.d("MainActivity", "Showing home screen anyway (App Remote can connect later)")
-                showHomeScreen()
+                // App Remote auth can be done later through Spotify app
             }
         })
     }
@@ -387,6 +418,7 @@ class MainActivity : ComponentActivity() {
         }
         
         discoverIcon?.setOnClickListener {
+            android.widget.Toast.makeText(this, "Implementing soon...", android.widget.Toast.LENGTH_SHORT).show()
             if (currentScreen != Screen.FRIENDS) {
                 if (currentScreen == Screen.SETTINGS) {
                     // Animate settings closing, then show friends screen

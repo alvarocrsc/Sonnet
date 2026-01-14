@@ -42,7 +42,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="-4dp"
             android:fontFamily="@font/geist_regular"
-            android:text="\@alvarocrsc"
+            android:text=""
             android:textColor="#999999"
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,13 +106,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/bg_filter_selected"
+                android:background="@drawable/bg_filter_unselected"
                 android:fontFamily="@font/geist_regular"
                 android:gravity="center"
                 android:paddingTop="2dp"
                 android:paddingBottom="3dp"
                 android:text="30 days"
-                android:textColor="#E56060"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 
             <TextView
@@ -135,13 +135,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_filter_unselected"
+                android:background="@drawable/bg_filter_selected"
                 android:fontFamily="@font/geist_regular"
                 android:gravity="center"
                 android:paddingTop="2dp"
                 android:paddingBottom="3dp"
                 android:text="All time"
-                android:textColor="#F2F2F2"
+                android:textColor="#E56060"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -240,6 +240,19 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
+                            <View
+                                android:id="@+id/skeleton_minutes"
+                                android:layout_width="50dp"
+                                android:layout_height="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/skeleton_shimmer"
+                                android:visibility="gone"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.52"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent" />
+
                             <TextView
                                 android:id="@+id/percent_minutes"
                                 android:layout_width="wrap_content"
@@ -327,6 +340,19 @@
                                 android:textSize="21sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
+
+                            <View
+                                android:id="@+id/skeleton_artists"
+                                android:layout_width="50dp"
+                                android:layout_height="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/skeleton_shimmer"
+                                android:visibility="gone"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.45"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent" />
 
                             <TextView
                                 android:id="@+id/percent_artists"
@@ -425,6 +451,19 @@
                                 android:textSize="21sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
+
+                            <View
+                                android:id="@+id/skeleton_streams"
+                                android:layout_width="50dp"
+                                android:layout_height="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/skeleton_shimmer"
+                                android:visibility="gone"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.43"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent" />
 
                             <TextView
                                 android:id="@+id/percent_streams"
@@ -612,6 +651,19 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
 
+                            <View
+                                android:id="@+id/skeleton_tracks"
+                                android:layout_width="50dp"
+                                android:layout_height="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/skeleton_shimmer"
+                                android:visibility="gone"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.43"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent" />
+
                             <TextView
                                 android:id="@+id/percent_tracks"
                                 android:layout_width="wrap_content"
@@ -699,6 +751,19 @@
                                 android:textSize="21sp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent" />
+
+                            <View
+                                android:id="@+id/skeleton_albums"
+                                android:layout_width="50dp"
+                                android:layout_height="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/skeleton_shimmer"
+                                android:visibility="gone"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.43"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent" />
 
                             <TextView
                                 android:id="@+id/percent_albums"
