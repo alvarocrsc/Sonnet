@@ -471,6 +471,140 @@
 
                 </LinearLayout>
 
+                <!-- Stats Skeleton Loader -->
+                <LinearLayout
+                    android:id="@+id/user_stats_skeleton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/stats_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <!-- Skeleton Column 1 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="14dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+
+                        <View
+                            android:layout_width="50dp"
+                            android:layout_height="12dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+                    </LinearLayout>
+
+                    <!-- Skeleton Column 2 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="14dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+
+                        <View
+                            android:layout_width="50dp"
+                            android:layout_height="12dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+                    </LinearLayout>
+
+                    <!-- Skeleton Column 3 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="14dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+
+                        <View
+                            android:layout_width="50dp"
+                            android:layout_height="12dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+                    </LinearLayout>
+
+                    <!-- Skeleton Column 4 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="14dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+
+                        <View
+                            android:layout_width="50dp"
+                            android:layout_height="12dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+                    </LinearLayout>
+
+                    <!-- Skeleton Column 5 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="14dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+
+                        <View
+                            android:layout_width="50dp"
+                            android:layout_height="10dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+                    </LinearLayout>
+
+                    <!-- Skeleton Column 6 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="14dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+
+                        <View
+                            android:layout_width="50dp"
+                            android:layout_height="12dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/skeleton_shimmer"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

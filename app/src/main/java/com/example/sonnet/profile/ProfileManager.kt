@@ -13,6 +13,10 @@ import com.example.sonnet.adapters.TopArtistsAdapter
 import com.example.sonnet.adapters.TopTracksAdapter
 import com.example.sonnet.firebase.StatisticsManager
 import com.example.sonnet.models.TimeRange
+import com.example.sonnet.models.stats.UserStats
+import com.example.sonnet.models.stats.ArtistStats
+import com.example.sonnet.models.stats.AlbumStats
+import com.example.sonnet.models.stats.TrackStats
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,6 +44,9 @@ class ProfileManager(
     private val streamsValue: TextView = profileView.findViewById(R.id.streams_value)
     private val tracksValue: TextView = profileView.findViewById(R.id.tracks_value)
     private val artistsValue: TextView = profileView.findViewById(R.id.artists_value)
+    
+    private val statsContainer: View = profileView.findViewById(R.id.stats_container)
+    private val userStatsSkeleton: View = profileView.findViewById(R.id.user_stats_skeleton)
     
     // RecyclerView
     private val topArtistsRecycler: RecyclerView = profileView.findViewById(R.id.top_artists_recycler)
@@ -153,126 +160,142 @@ class ProfileManager(
     private fun loadStatistics(userId: String, timeRange: TimeRange) {
         Log.d(TAG, "Loading statistics for ${timeRange.name}...")
         
-        // Currently only ALL_TIME is supported (time-based stats not yet implemented)
-        if (timeRange != TimeRange.ALL_TIME) {
-            Log.w(TAG, "Time-based filtering not yet implemented - showing ALL_TIME data")
-            android.widget.Toast.makeText(
-                profileView.context,
-                "Time-based filtering coming soon - showing all-time stats",
-                android.widget.Toast.LENGTH_SHORT
-            ).show()
-            // Load ALL_TIME data instead
-            loadStatistics(userId, TimeRange.ALL_TIME)
-            return
-        }
+        // Show skeleton loaders immediately
+        showSkeletonLoading()
         
         lifecycleScope.launch {
             try {
-                Log.d(TAG, "Fetching user stats...")
-                val userStats = withContext(Dispatchers.IO) {
-                    statsManager.getUserStats(userId, timeRange)
-                }
-                Log.d(TAG, "User stats: $userStats")
-                
-                // If stats don't exist, show empty state instead of auto-calculating
-                if (userStats == null) {
-                    Log.w(TAG, "No statistics found - user needs to import data")
+                // For ALL_TIME, use cached stats (fast)
+                if (timeRange == TimeRange.ALL_TIME) {
+                    Log.d(TAG, "Fetching cached user stats...")
+                    val userStats = withContext(Dispatchers.IO) {
+                        statsManager.getUserStats(userId, timeRange)
+                    }
+                    Log.d(TAG, "User stats: $userStats")
                     
-                    // Show toast on main thread
-                    withContext(Dispatchers.Main) {
-                        android.widget.Toast.makeText(
-                            profileView.context,
-                            "No statistics found. Please import your Spotify data first.",
-                            android.widget.Toast.LENGTH_LONG
-                        ).show()
+                    // If stats don't exist, show empty state
+                    if (userStats == null) {
+                        Log.w(TAG, "No statistics found - user needs to import data")
+                        withContext(Dispatchers.Main) {
+                            android.widget.Toast.makeText(
+                                profileView.context,
+                                "No statistics found. Please import your Spotify data first.",
+                                android.widget.Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        return@launch
                     }
                     
+                    val topArtists = withContext(Dispatchers.IO) {
+                        statsManager.getTopArtists(userId, timeRange, limit = 50)
+                    }
+                    Log.d(TAG, "Got ${topArtists.size} artists")
+                    
+                    val topAlbums = withContext(Dispatchers.IO) {
+                        statsManager.getTopAlbums(userId, timeRange, limit = 50)
+                    }
+                    Log.d(TAG, "Got ${topAlbums.size} albums")
+                    
+                    val topTracks = withContext(Dispatchers.IO) {
+                        statsManager.getTopTracks(userId, timeRange, limit = 50)
+                    }
+                    Log.d(TAG, "Got ${topTracks.size} tracks")
+                    
+                    updateUI(userStats, topArtists, topAlbums, topTracks, timeRange)
                     return@launch
                 }
                 
-                Log.d(TAG, "Fetching top artists...")
-                val topArtists = withContext(Dispatchers.IO) {
-                    statsManager.getTopArtists(userId, timeRange, limit = 50)
+                // For time-based filters, calculate on-the-fly
+                // Load listening history ONCE and reuse for all calculations
+                Log.d(TAG, "Loading listening history for ${timeRange.name}...")
+                val (userStats, topArtists, topAlbums, topTracks) = withContext(Dispatchers.IO) {
+                    statsManager.calculateTimeBasedStats(userId, timeRange, limit = 50)
                 }
-                Log.d(TAG, "Got ${topArtists.size} artists")
+                Log.d(TAG, "Calculated stats: ${topArtists.size} artists, ${topAlbums.size} albums, ${topTracks.size} tracks")
                 
-                Log.d(TAG, "Fetching top albums...")
-                val topAlbums = withContext(Dispatchers.IO) {
-                    statsManager.getTopAlbums(userId, timeRange, limit = 50)
-                }
-                Log.d(TAG, "Got ${topAlbums.size} albums")
-                
-                Log.d(TAG, "Fetching top tracks...")
-                val topTracks = withContext(Dispatchers.IO) {
-                    statsManager.getTopTracks(userId, timeRange, limit = 50)
-                }
-                Log.d(TAG, "Got ${topTracks.size} tracks")
-                
-                // Update UI
-                userStats?.let { stats ->
-                    // Convert milliseconds to minutes
-                    val minutes = stats.totalListeningTimeMs / 60000
-                    minutesValue.text = formatNumber(minutes)
-                    streamsValue.text = formatNumber(stats.totalStreams)
-                    tracksValue.text = formatNumber(stats.uniqueTracks)
-                    artistsValue.text = formatNumber(stats.uniqueArtists)
-                    Log.d(TAG, "Updated user stats UI")
-                }
-                
-                // Update top artists
-                if (topArtists.isNotEmpty()) {
-                    topArtistsAdapter.setArtists(topArtists)
-                    
-                    // Hide skeleton and show RecyclerView
-                    topArtistsSkeleton.visibility = View.GONE
-                    topArtistsRecycler.visibility = View.VISIBLE
-                    
-                    Log.d(TAG, "Updated top artists adapter with ${topArtists.size} artists")
-                } else {
-                    Log.w(TAG, "No artists found for ${timeRange.name}")
-                    // Hide skeleton even if no data
-                    topArtistsSkeleton.visibility = View.GONE
-                    topArtistsRecycler.visibility = View.VISIBLE
-                }
-                
-                // Update top albums
-                if (topAlbums.isNotEmpty()) {
-                    topAlbumsAdapter.setAlbums(topAlbums)
-                    
-                    // Hide skeleton and show RecyclerView
-                    topAlbumsSkeleton.visibility = View.GONE
-                    topAlbumsRecycler.visibility = View.VISIBLE
-                    
-                    Log.d(TAG, "Updated top albums adapter with ${topAlbums.size} albums")
-                } else {
-                    Log.w(TAG, "No albums found for ${timeRange.name}")
-                    // Hide skeleton even if no data
-                    topAlbumsSkeleton.visibility = View.GONE
-                    topAlbumsRecycler.visibility = View.VISIBLE
-                }
-                
-                // Update top tracks
-                if (topTracks.isNotEmpty()) {
-                    topTracksAdapter.setTracks(topTracks)
-                    
-                    // Hide skeleton and show RecyclerView
-                    topTracksSkeleton.visibility = View.GONE
-                    topTracksRecycler.visibility = View.VISIBLE
-                    
-                    Log.d(TAG, "Updated top tracks adapter with ${topTracks.size} tracks")
-                } else {
-                    Log.w(TAG, "No tracks found for ${timeRange.name}")
-                    // Hide skeleton even if no data
-                    topTracksSkeleton.visibility = View.GONE
-                    topTracksRecycler.visibility = View.VISIBLE
-                }
-                
-                Log.d(TAG, "Loaded stats for $userId (${timeRange.name}): ${topArtists.size} artists, ${topAlbums.size} albums, ${topTracks.size} tracks")
+                updateUI(userStats, topArtists, topAlbums, topTracks, timeRange)
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading statistics: ${e.message}", e)
                 e.printStackTrace()
             }
         }
+    }
+    
+    private fun updateUI(
+        userStats: UserStats?,
+        topArtists: List<ArtistStats>,
+        topAlbums: List<AlbumStats>,
+        topTracks: List<TrackStats>,
+        timeRange: TimeRange
+    ) {
+        // Update user stats
+        userStats?.let { stats ->
+            val minutes = stats.totalListeningTimeMs / 60000
+            minutesValue.text = formatNumber(minutes)
+            streamsValue.text = formatNumber(stats.totalStreams)
+            tracksValue.text = formatNumber(stats.uniqueTracks)
+            artistsValue.text = formatNumber(stats.uniqueArtists)
+            
+            // Show stats container and hide skeleton
+            userStatsSkeleton.visibility = View.GONE
+            statsContainer.visibility = View.VISIBLE
+            
+            Log.d(TAG, "Updated user stats UI")
+        }
+        
+        // Update top artists
+        if (topArtists.isNotEmpty()) {
+            topArtistsAdapter.setArtists(topArtists)
+            topArtistsSkeleton.visibility = View.GONE
+            topArtistsRecycler.visibility = View.VISIBLE
+            Log.d(TAG, "Updated top artists adapter with ${topArtists.size} artists")
+        } else {
+            Log.w(TAG, "No artists found for ${timeRange.name}")
+            topArtistsSkeleton.visibility = View.GONE
+            topArtistsRecycler.visibility = View.VISIBLE
+        }
+        
+        // Update top albums
+        if (topAlbums.isNotEmpty()) {
+            topAlbumsAdapter.setAlbums(topAlbums)
+            topAlbumsSkeleton.visibility = View.GONE
+            topAlbumsRecycler.visibility = View.VISIBLE
+            Log.d(TAG, "Updated top albums adapter with ${topAlbums.size} albums")
+        } else {
+            Log.w(TAG, "No albums found for ${timeRange.name}")
+            topAlbumsSkeleton.visibility = View.GONE
+            topAlbumsRecycler.visibility = View.VISIBLE
+        }
+        
+        // Update top tracks
+        if (topTracks.isNotEmpty()) {
+            topTracksAdapter.setTracks(topTracks)
+            topTracksSkeleton.visibility = View.GONE
+            topTracksRecycler.visibility = View.VISIBLE
+            Log.d(TAG, "Updated top tracks adapter with ${topTracks.size} tracks")
+        } else {
+            Log.w(TAG, "No tracks found for ${timeRange.name}")
+            topTracksSkeleton.visibility = View.GONE
+            topTracksRecycler.visibility = View.VISIBLE
+        }
+        
+        Log.d(TAG, "Loaded stats for ${timeRange.name}: ${topArtists.size} artists, ${topAlbums.size} albums, ${topTracks.size} tracks")
+    }
+    
+    private fun showSkeletonLoading() {
+        // Hide stats and show skeleton
+        statsContainer.visibility = View.GONE
+        userStatsSkeleton.visibility = View.VISIBLE
+        
+        // Hide RecyclerViews and show skeleton loaders
+        topArtistsRecycler.visibility = View.GONE
+        topArtistsSkeleton.visibility = View.VISIBLE
+        
+        topAlbumsRecycler.visibility = View.GONE
+        topAlbumsSkeleton.visibility = View.VISIBLE
+        
+        topTracksRecycler.visibility = View.GONE
+        topTracksSkeleton.visibility = View.VISIBLE
     }
     
     private fun formatNumber(number: Int): String {

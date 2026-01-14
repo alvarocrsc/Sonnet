@@ -9,6 +9,7 @@ import com.example.sonnet.models.stats.AlbumStats
 import com.example.sonnet.models.stats.TrackStats
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.Source
 import kotlinx.coroutines.tasks.await
 
@@ -188,13 +189,14 @@ class StatisticsManager private constructor() {
             
             while (hasMore) {
                 try {
-                    // Build query with orderBy document ID (no index required) and limit
+                    // Build query with orderBy document ID descending (newest first)
+                    // Requires one-time Firestore index creation
                     val query = if (lastDocument != null) {
                         Log.d(TAG, "Fetching page ${pageCount + 1} starting after document: ${lastDocument.id}")
                         db.collection("users")
                             .document(userId)
                             .collection("listening_history")
-                            .orderBy(FieldPath.documentId())
+                            .orderBy(FieldPath.documentId(), Query.Direction.DESCENDING)
                             .startAfter(lastDocument)
                             .limit(BATCH_SIZE.toLong())
                     } else {
@@ -202,7 +204,7 @@ class StatisticsManager private constructor() {
                         db.collection("users")
                             .document(userId)
                             .collection("listening_history")
-                            .orderBy(FieldPath.documentId())
+                            .orderBy(FieldPath.documentId(), Query.Direction.DESCENDING)
                             .limit(BATCH_SIZE.toLong())
                     }
                     
@@ -221,7 +223,11 @@ class StatisticsManager private constructor() {
                             doc.toObject(ListeningHistory::class.java)?.let { history ->
                                 if (cutoffTimestamp != null) {
                                     val playedAtMs = history.playedAt.toDate().time
-                                    if (playedAtMs >= cutoffTimestamp) history else null
+                                    if (playedAtMs >= cutoffTimestamp) {
+                                        history
+                                    } else {
+                                        null
+                                    }
                                 } else {
                                     history
                                 }
@@ -230,7 +236,15 @@ class StatisticsManager private constructor() {
                         
                         allHistory.addAll(batch)
                         lastDocument = snapshot.documents.lastOrNull()
-                        hasMore = docCount == BATCH_SIZE
+                        
+                        // Stop pagination early if we've gone past the cutoff
+                        // Since docs are ordered by ID (timestamp-based), if we find no matches in a batch, we can stop
+                        if (cutoffTimestamp != null && batch.isEmpty() && allHistory.isNotEmpty()) {
+                            Log.d(TAG, "No matches in current batch and we have data - stopping pagination")
+                            hasMore = false
+                        } else {
+                            hasMore = docCount == BATCH_SIZE
+                        }
                         pageCount++
                         
                         Log.d(TAG, "Page $pageCount: loaded ${batch.size} entries (total so far: ${allHistory.size})")
@@ -590,4 +604,47 @@ class StatisticsManager private constructor() {
             emptyList()
         }
     }
-}
+    
+    /**
+     * Calculate all stats in one pass for time-based filters
+     * Loads listening history once and reuses it for all calculations
+     */
+    data class TimeBasedStats(
+        val userStats: UserStats,
+        val topArtists: List<ArtistStats>,
+        val topAlbums: List<AlbumStats>,
+        val topTracks: List<TrackStats>
+    )
+    
+    suspend fun calculateTimeBasedStats(
+        userId: String,
+        timeRange: TimeRange,
+        limit: Int = 50
+    ): TimeBasedStats {
+        return try {
+            Log.d(TAG, "Calculating time-based stats for ${timeRange.name}...")
+            
+            // Load listening history once
+            val history = getAllListeningHistory(userId, timeRange)
+            Log.d(TAG, "Loaded ${history.size} entries for ${timeRange.name}")
+            
+            // Calculate all stats from the same data
+            val userStats = calculateUserStats(userId, history)
+            val artistStats = calculateArtistStats(userId, history).take(limit)
+            val albumStats = calculateAlbumStats(userId, history).take(limit)
+            val trackStats = calculateTrackStats(userId, history).take(limit)
+            
+            Log.d(TAG, "Calculated: ${artistStats.size} artists, ${albumStats.size} albums, ${trackStats.size} tracks")
+            
+            TimeBasedStats(userStats, artistStats, albumStats, trackStats)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error calculating time-based stats: ${e.message}", e)
+            e.printStackTrace()
+            TimeBasedStats(
+                UserStats(userId, 0, 0, 0, 0, 0, System.currentTimeMillis()),
+                emptyList(),
+                emptyList(),
+                emptyList()
+            )
+        }
+    }}
