@@ -251,12 +251,18 @@ class ListeningDataManager private constructor() {
     /**
      * Delete all listening history entries from a specific imported file
      * 
+     * Note: This loads all matching documents at once (30-60 second delay for large imports)
+     * because Firestore must fetch full documents before deletion. Alternative approaches
+     * (batching, pagination) are slower since each query takes 20+ seconds.
+     * 
      * @param userId User ID (for subcollection path)
      * @param sourceFileId Unique ID of the file to delete entries from
      * @return true if successful, false otherwise
      */
     suspend fun deleteListeningHistoryByFileId(userId: String, sourceFileId: String): Boolean {
         return try {
+            // Query all documents with this sourceFileId
+            // This will take 30-60 seconds for large datasets due to loading images/data
             val snapshot = getListeningHistoryCollection(userId)
                 .whereEqualTo("sourceFileId", sourceFileId)
                 .get()
@@ -269,6 +275,7 @@ class ListeningDataManager private constructor() {
             
             Log.d(TAG, "Deleting ${snapshot.size()} documents with sourceFileId: $sourceFileId")
             
+            // Delete in batches (Firestore limit: 500 operations per batch)
             snapshot.documents.chunked(BATCH_SIZE).forEach { chunk ->
                 val batch = db.batch()
                 chunk.forEach { document ->

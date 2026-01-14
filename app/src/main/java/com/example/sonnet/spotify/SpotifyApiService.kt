@@ -3,6 +3,7 @@ package com.example.sonnet.spotify
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 
 /**
  * Retrofit interface for Spotify Web API calls
@@ -13,4 +14,16 @@ interface SpotifyApiService {
     suspend fun getCurrentUserProfile(
         @Header("Authorization") authorization: String
     ): Response<SpotifyUserResponse>
+    
+    @GET("v1/tracks/{id}")
+    suspend fun getTrack(
+        @Path("id") trackId: String,
+        @Header("Authorization") authorization: String
+    ): Response<SpotifyTrackResponse>
+    
+    @GET("v1/artists/{id}")
+    suspend fun getArtist(
+        @Path("id") artistId: String,
+        @Header("Authorization") authorization: String
+    ): Response<SpotifyArtistResponse>
 }

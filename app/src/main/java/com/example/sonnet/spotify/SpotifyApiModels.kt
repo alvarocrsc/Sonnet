@@ -44,3 +44,52 @@ data class Followers(
     @SerializedName("total")
     val total: Int
 )
+/**
+ * Track response from Spotify API
+ */
+data class SpotifyTrackResponse(
+    @SerializedName("id")
+    val id: String,
+    
+    @SerializedName("name")
+    val name: String,
+    
+    @SerializedName("album")
+    val album: SpotifyAlbumInfo,
+    
+    @SerializedName("artists")
+    val artists: List<SpotifyArtistInfo>
+)
+
+data class SpotifyAlbumInfo(
+    @SerializedName("id")
+    val id: String,
+    
+    @SerializedName("name")
+    val name: String,
+    
+    @SerializedName("images")
+    val images: List<SpotifyImage>
+)
+
+data class SpotifyArtistInfo(
+    @SerializedName("id")
+    val id: String,
+    
+    @SerializedName("name")
+    val name: String
+)
+
+/**
+ * Artist full response from Spotify API
+ */
+data class SpotifyArtistResponse(
+    @SerializedName("id")
+    val id: String,
+    
+    @SerializedName("name")
+    val name: String,
+    
+    @SerializedName("images")
+    val images: List<SpotifyImage>
+)

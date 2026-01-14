@@ -191,11 +191,15 @@ class SpotifyJsonImporter(private val context: Context) {
                 )
             }
             
-            // Step 3: Convert to ListeningHistory (filtering happens in toListeningHistory)
-            onProgress(0, file.validEntryCount, "Converting ${file.fileName}...")
-            val historyList = entries.mapNotNull { it.toListeningHistory(userId, file.sourceFileId) }
+            // Step 3: Filter valid entries first
+            onProgress(0, file.validEntryCount, "Filtering ${file.fileName}...")
+            val validEntries = entries.filter { entry ->
+                entry.msPlayed >= 30000 && 
+                !entry.trackName.isNullOrBlank() && 
+                !entry.trackUri.isNullOrBlank()
+            }
             
-            if (historyList.isEmpty()) {
+            if (validEntries.isEmpty()) {
                 return@withContext SingleFileImportResult(
                     fileName = file.fileName,
                     success = false,
@@ -204,7 +208,28 @@ class SpotifyJsonImporter(private val context: Context) {
                 )
             }
             
-            // Step 4: Batch save to Firebase
+            // Step 4: Convert to ListeningHistory (images will be fetched lazily in UI)
+            onProgress(0, validEntries.size, "Converting ${file.fileName}...")
+            val historyList = validEntries.mapNotNull { entry ->
+                entry.toListeningHistory(
+                    userId = userId,
+                    sourceFileId = file.sourceFileId,
+                    albumImageUrl = null, // Images fetched lazily when displayed
+                    artistImageUrl = null
+                )
+            }
+            
+            if (historyList.isEmpty()) {
+                Log.w(TAG, "No listening history converted from ${file.fileName}")
+                return@withContext SingleFileImportResult(
+                    fileName = file.fileName,
+                    success = false,
+                    entriesSaved = 0,
+                    error = "Failed to convert entries"
+                )
+            }
+            
+            // Step 5: Batch save to Firebase
             val success = ListeningDataManager.getInstance()
                 .batchSaveListeningHistory(userId, historyList) { current, total ->
                     onProgress(current, total, "Importing ${file.fileName}...")

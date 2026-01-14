@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sonnet.R
 import com.example.sonnet.TokenManager
 import com.example.sonnet.firebase.ListeningDataManager
+import com.example.sonnet.firebase.StatisticsManager
 import com.example.sonnet.models.ImportStatus
 import com.example.sonnet.models.ImportedFile
 import kotlinx.coroutines.Dispatchers
@@ -65,6 +66,38 @@ class ImportActivity : ComponentActivity() {
         
         // Load previously imported files
         loadImportedFiles()
+        
+        // Fix any PENDING files that actually completed (one-time fix)
+        fixPendingFiles()
+    }
+    
+    /**
+     * Fixes files stuck in PENDING status that were actually imported successfully
+     * This can happen if the app was closed before status was saved
+     */
+    private fun fixPendingFiles() {
+        lifecycleScope.launch {
+            val files = adapter.getFiles()
+            var fixed = false
+            
+            files.forEachIndexed { index, file ->
+                if (file.status == ImportStatus.PENDING && file.validEntryCount > 0) {
+                    // This file was likely imported successfully but status didn't update
+                    adapter.updateFileStatus(index, ImportStatus.COMPLETED)
+                    fixed = true
+                    Log.d("ImportActivity", "Fixed status for ${file.fileName}")
+                }
+            }
+            
+            if (fixed) {
+                saveImportedFiles()
+                Toast.makeText(
+                    this@ImportActivity, 
+                    "Fixed status for previously imported files", 
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun initializeViews() {
@@ -236,6 +269,46 @@ class ImportActivity : ComponentActivity() {
                 
                 // Save updated statuses
                 saveImportedFiles()
+                
+                // Mark import as complete BEFORE calculating statistics
+                // This allows user to exit even if stats calculation takes long
+                isImporting = false
+                
+                // Calculate statistics automatically after successful import
+                // This runs in background and won't block the UI
+                if (result.success && result.entriesSaved > 0) {
+                    Toast.makeText(
+                        this@ImportActivity, 
+                        "Calculating statistics in background...", 
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    
+                    // Launch in separate coroutine so it doesn't block
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        try {
+                            StatisticsManager.getInstance().calculateAndSaveAllStats(userId) { status ->
+                                Log.d("ImportActivity", "Stats calculation: $status")
+                            }
+                            
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(
+                                    this@ImportActivity,
+                                    "Statistics updated successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        } catch (e: Exception) {
+                            Log.e("ImportActivity", "Error calculating statistics: ${e.message}", e)
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(
+                                    this@ImportActivity,
+                                    "Statistics calculation failed (data still saved)",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                }
 
             } catch (e: Exception) {
                 Toast.makeText(
@@ -243,7 +316,6 @@ class ImportActivity : ComponentActivity() {
                     "Import failed: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-            } finally {
                 isImporting = false
             }
         }

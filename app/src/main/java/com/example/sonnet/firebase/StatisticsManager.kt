@@ -2,6 +2,7 @@ package com.example.sonnet.firebase
 
 import android.util.Log
 import com.example.sonnet.models.ListeningHistory
+import com.example.sonnet.models.TimeRange
 import com.example.sonnet.models.stats.UserStats
 import com.example.sonnet.models.stats.ArtistStats
 import com.example.sonnet.models.stats.AlbumStats
@@ -50,18 +51,20 @@ class StatisticsManager private constructor() {
      * This is the main entry point after importing data
      * 
      * @param userId User's Spotify ID
+     * @param timeRange Time range to calculate stats for (defaults to ALL_TIME)
      * @param onProgress Callback to report progress
      * @return true if successful, false otherwise
      */
     suspend fun calculateAndSaveAllStats(
         userId: String,
+        timeRange: TimeRange = TimeRange.ALL_TIME,
         onProgress: ((String) -> Unit)? = null
     ): Boolean {
         return try {
-            Log.d(TAG, "Starting full statistics calculation for user: $userId")
+            Log.d(TAG, "Starting statistics calculation for user: $userId (${timeRange.name})")
             
             onProgress?.invoke("Fetching listening history...")
-            val allHistory = getAllListeningHistory(userId)
+            val allHistory = getAllListeningHistory(userId, timeRange)
             
             if (allHistory.isEmpty()) {
                 Log.w(TAG, "No listening history found for user: $userId")
@@ -101,21 +104,36 @@ class StatisticsManager private constructor() {
     
     /**
      * Get all listening history for a user (for statistics calculation)
-     * This fetches ALL data
+     * @param userId User's Spotify ID
+     * @param timeRange Optional time range filter (defaults to ALL_TIME)
      */
-    private suspend fun getAllListeningHistory(userId: String): List<ListeningHistory> {
+    private suspend fun getAllListeningHistory(
+        userId: String,
+        timeRange: TimeRange = TimeRange.ALL_TIME
+    ): List<ListeningHistory> {
         return try {
-            val snapshot = db.collection("users")
-                .document(userId)
-                .collection("listening_history")
-                .get()
-                .await()
+            val cutoffTimestamp = timeRange.getCutoffTimestamp()
+            
+            val query = if (cutoffTimestamp != null) {
+                // Filter by time range
+                db.collection("users")
+                    .document(userId)
+                    .collection("listening_history")
+                    .whereGreaterThanOrEqualTo("playedAt", com.google.firebase.Timestamp(java.util.Date(cutoffTimestamp)))
+            } else {
+                // Get all data
+                db.collection("users")
+                    .document(userId)
+                    .collection("listening_history")
+            }
+            
+            val snapshot = query.get().await()
             
             snapshot.documents.mapNotNull { doc ->
                 doc.toObject(ListeningHistory::class.java)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error fetching all listening history: ${e.message}", e)
+            Log.e(TAG, "Error fetching listening history: ${e.message}", e)
             emptyList()
         }
     }
@@ -161,7 +179,7 @@ class StatisticsManager private constructor() {
                 userId = userId,
                 artistId = artistName.hashCode().toString(),
                 artistName = artistName,
-                imageUrl = null, // TODO: Fetch from Spotify API
+                imageUrl = entries.firstNotNullOfOrNull { it.artistImageUrl },
                 totalListeningTimeMs = totalTime,
                 playCount = playCount,
                 rank = 0, // Will be set after sorting
@@ -199,7 +217,7 @@ class StatisticsManager private constructor() {
                 albumId = albumName.hashCode().toString(),
                 albumName = albumName,
                 artistName = firstEntry.artistName ?: "",
-                imageUrl = null,
+                imageUrl = firstEntry.albumImageUrl,
                 totalListeningTimeMs = totalTime,
                 playCount = playCount,
                 rank = 0, // Will be set after sorting
@@ -238,7 +256,7 @@ class StatisticsManager private constructor() {
                 trackName = firstEntry.trackName ?: "",
                 artistName = firstEntry.artistName ?: "",
                 albumName = firstEntry.albumName ?: "",
-                albumImageUrl = null,
+                albumImageUrl = firstEntry.albumImageUrl,
                 durationMs = firstEntry.durationMs,
                 totalListeningTimeMs = totalTime,
                 playCount = playCount,
@@ -334,11 +352,23 @@ class StatisticsManager private constructor() {
     
     /**
      * Get user statistics
+     * @param userId User's Spotify ID
+     * @param timeRange Time range filter (calculates for non-ALL_TIME)
      */
-    suspend fun getUserStats(userId: String): UserStats? {
+    suspend fun getUserStats(
+        userId: String,
+        timeRange: TimeRange = TimeRange.ALL_TIME
+    ): UserStats? {
         return try {
-            val doc = getUserStatsDoc(userId).get().await()
-            doc.toObject(UserStats::class.java)
+            // For ALL_TIME, use cached stats from Firestore
+            if (timeRange == TimeRange.ALL_TIME) {
+                val doc = getUserStatsDoc(userId).get().await()
+                return doc.toObject(UserStats::class.java)
+            }
+            
+            // For time ranges, calculate
+            val history = getAllListeningHistory(userId, timeRange)
+            calculateUserStats(userId, history)
         } catch (e: Exception) {
             Log.e(TAG, "Error getting user stats: ${e.message}", e)
             null
@@ -347,20 +377,33 @@ class StatisticsManager private constructor() {
     
     /**
      * Get top artists for a user
+     * @param userId User's Spotify ID
+     * @param timeRange Time range filter (calculates for non-ALL_TIME)
      * @param limit Number of top artists to return
      */
-    suspend fun getTopArtists(userId: String, limit: Int = 50): List<ArtistStats> {
+    suspend fun getTopArtists(
+        userId: String,
+        timeRange: TimeRange = TimeRange.ALL_TIME,
+        limit: Int = 50
+    ): List<ArtistStats> {
         return try {
-            val snapshot = getArtistStatsCollection()
-                .whereEqualTo("userId", userId)
-                .orderBy("rank")
-                .limit(limit.toLong())
-                .get()
-                .await()
-            
-            snapshot.documents.mapNotNull { doc ->
-                doc.toObject(ArtistStats::class.java)
+            // For ALL_TIME, use cached stats from Firestore
+            if (timeRange == TimeRange.ALL_TIME) {
+                val snapshot = getArtistStatsCollection()
+                    .whereEqualTo("userId", userId)
+                    .orderBy("rank")
+                    .limit(limit.toLong())
+                    .get()
+                    .await()
+                
+                return snapshot.documents.mapNotNull { doc ->
+                    doc.toObject(ArtistStats::class.java)
+                }
             }
+            
+            // For time ranges, calculate
+            val history = getAllListeningHistory(userId, timeRange)
+            calculateArtistStats(userId, history).take(limit)
         } catch (e: Exception) {
             Log.e(TAG, "Error getting top artists: ${e.message}", e)
             emptyList()
@@ -369,20 +412,33 @@ class StatisticsManager private constructor() {
     
     /**
      * Get top albums for a user
+     * @param userId User's Spotify ID
+     * @param timeRange Time range filter (calculates for non-ALL_TIME)
      * @param limit Number of top albums to return
      */
-    suspend fun getTopAlbums(userId: String, limit: Int = 50): List<AlbumStats> {
+    suspend fun getTopAlbums(
+        userId: String,
+        timeRange: TimeRange = TimeRange.ALL_TIME,
+        limit: Int = 50
+    ): List<AlbumStats> {
         return try {
-            val snapshot = getAlbumStatsCollection()
-                .whereEqualTo("userId", userId)
-                .orderBy("rank")
-                .limit(limit.toLong())
-                .get()
-                .await()
-            
-            snapshot.documents.mapNotNull { doc ->
-                doc.toObject(AlbumStats::class.java)
+            // For ALL_TIME, use cached stats from Firestore
+            if (timeRange == TimeRange.ALL_TIME) {
+                val snapshot = getAlbumStatsCollection()
+                    .whereEqualTo("userId", userId)
+                    .orderBy("rank")
+                    .limit(limit.toLong())
+                    .get()
+                    .await()
+                
+                return snapshot.documents.mapNotNull { doc ->
+                    doc.toObject(AlbumStats::class.java)
+                }
             }
+            
+            // For time ranges, calculate
+            val history = getAllListeningHistory(userId, timeRange)
+            calculateAlbumStats(userId, history).take(limit)
         } catch (e: Exception) {
             Log.e(TAG, "Error getting top albums: ${e.message}", e)
             emptyList()
@@ -391,20 +447,33 @@ class StatisticsManager private constructor() {
     
     /**
      * Get top tracks for a user
+     * @param userId User's Spotify ID
+     * @param timeRange Time range filter (calculates on-the-fly for non-ALL_TIME)
      * @param limit Number of top tracks to return
      */
-    suspend fun getTopTracks(userId: String, limit: Int = 50): List<TrackStats> {
+    suspend fun getTopTracks(
+        userId: String,
+        timeRange: TimeRange = TimeRange.ALL_TIME,
+        limit: Int = 50
+    ): List<TrackStats> {
         return try {
-            val snapshot = getTrackStatsCollection()
-                .whereEqualTo("userId", userId)
-                .orderBy("rank")
-                .limit(limit.toLong())
-                .get()
-                .await()
-            
-            snapshot.documents.mapNotNull { doc ->
-                doc.toObject(TrackStats::class.java)
+            // For ALL_TIME, use cached stats from Firestore
+            if (timeRange == TimeRange.ALL_TIME) {
+                val snapshot = getTrackStatsCollection()
+                    .whereEqualTo("userId", userId)
+                    .orderBy("rank")
+                    .limit(limit.toLong())
+                    .get()
+                    .await()
+                
+                return snapshot.documents.mapNotNull { doc ->
+                    doc.toObject(TrackStats::class.java)
+                }
             }
+            
+            // For time ranges, calculate on-the-fly
+            val history = getAllListeningHistory(userId, timeRange)
+            calculateTrackStats(userId, history).take(limit)
         } catch (e: Exception) {
             Log.e(TAG, "Error getting top tracks: ${e.message}", e)
             emptyList()

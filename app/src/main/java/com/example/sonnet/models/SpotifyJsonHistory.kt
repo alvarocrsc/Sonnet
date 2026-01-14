@@ -25,7 +25,12 @@ data class SpotifyJsonHistory(
     val albumName: String?
 )
 
-fun SpotifyJsonHistory.toListeningHistory(userId: String, sourceFileId: String): ListeningHistory? {
+fun SpotifyJsonHistory.toListeningHistory(
+    userId: String, 
+    sourceFileId: String,
+    albumImageUrl: String? = null,
+    artistImageUrl: String? = null
+): ListeningHistory? {
     // Filter 1: Must have played the track during more than 30 seconds
     if (msPlayed < 30000) return null
 
@@ -50,6 +55,8 @@ fun SpotifyJsonHistory.toListeningHistory(userId: String, sourceFileId: String):
         trackName = trackName,
         artistName = artistName ?: "Unknown Artist",
         albumName = albumName,
+        albumImageUrl = albumImageUrl,
+        artistImageUrl = artistImageUrl,
         source = "import",
         sourceFileId = sourceFileId
     )
