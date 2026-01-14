@@ -134,7 +134,7 @@ class ImportActivity : ComponentActivity() {
             }
         }
     }
-
+    
     private fun handleFileSelection(uris: List<Uri>) {
         lifecycleScope.launch {
             try {
@@ -227,6 +227,7 @@ class ImportActivity : ComponentActivity() {
                     importer.importMultipleFiles(
                         files = filesToImport,
                         userId = userId,
+                        calculateStats = true,  // Enable incremental stats updates
                         onFileProgress = { fileIndex, current, total ->
                             // Find the real index in the adapter for this file
                             val realIndex = allFiles.indexOfFirst { it.uri == filesToImport[fileIndex].uri }
@@ -270,44 +271,16 @@ class ImportActivity : ComponentActivity() {
                 // Save updated statuses
                 saveImportedFiles()
                 
-                // Mark import as complete BEFORE calculating statistics
-                // This allows user to exit even if stats calculation takes long
+                // Mark import as complete
                 isImporting = false
                 
-                // Calculate statistics automatically after successful import
-                // This runs in background and won't block the UI
+                // Stats are calculated and merged during import
                 if (result.success && result.entriesSaved > 0) {
                     Toast.makeText(
-                        this@ImportActivity, 
-                        "Calculating statistics in background...", 
+                        this@ImportActivity,
+                        "Import complete! Statistics updated.",
                         Toast.LENGTH_SHORT
                     ).show()
-                    
-                    // Launch in separate coroutine so it doesn't block
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        try {
-                            StatisticsManager.getInstance().calculateAndSaveAllStats(userId) { status ->
-                                Log.d("ImportActivity", "Stats calculation: $status")
-                            }
-                            
-                            withContext(Dispatchers.Main) {
-                                Toast.makeText(
-                                    this@ImportActivity,
-                                    "Statistics updated successfully",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        } catch (e: Exception) {
-                            Log.e("ImportActivity", "Error calculating statistics: ${e.message}", e)
-                            withContext(Dispatchers.Main) {
-                                Toast.makeText(
-                                    this@ImportActivity,
-                                    "Statistics calculation failed (data still saved)",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                    }
                 }
 
             } catch (e: Exception) {

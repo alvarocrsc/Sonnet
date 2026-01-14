@@ -15,8 +15,6 @@ data class ListeningHistory(
     val trackName: String? = null,
     val artistName: String? = null,
     val albumName: String? = null,
-    val albumImageUrl: String? = null,      // Album cover image URL
-    val artistImageUrl: String? = null,     // Artist image URL
 
     // Source Data
     val source: String = "import",

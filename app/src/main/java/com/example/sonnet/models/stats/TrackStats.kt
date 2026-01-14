@@ -10,7 +10,6 @@ data class TrackStats(
     val trackName: String = "",
     val artistName: String = "",
     val albumName: String = "",
-    val albumImageUrl: String? = null,
     val durationMs: Long = 0,                 // Track duration in milliseconds
     val totalListeningTimeMs: Long = 0,       // Total listening time in milliseconds
     val playCount: Int = 0,                   // Number of streams/plays

@@ -75,6 +75,7 @@ class SpotifyAuthRepository private constructor() {
                 Log.d(TAG, "Successfully exchanged code for access token")
                 Log.d(TAG, "Token type: ${tokenResponse.token_type}")
                 Log.d(TAG, "Expires in: ${tokenResponse.expires_in} seconds")
+                Log.d(TAG, "Has refresh token: ${tokenResponse.refresh_token != null}")
                 tokenResponse
             } else {
                 Log.e(TAG, "Failed to exchange code: ${response.code()} - ${response.message()}")
@@ -83,6 +84,36 @@ class SpotifyAuthRepository private constructor() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error exchanging code for token: ${e.message}", e)
+            null
+        }
+    }
+    
+    /**
+     * Refresh access token using refresh token
+     * @param refreshToken The refresh token
+     * @return TokenResponse if successful, null otherwise
+     */
+    suspend fun refreshAccessToken(refreshToken: String): TokenResponse? {
+        return try {
+            Log.d(TAG, "Refreshing access token...")
+            
+            val response = tokenService.refreshToken(
+                refreshToken = refreshToken,
+                clientId = SpotifyConfig.CLIENT_ID
+            )
+            
+            if (response.isSuccessful && response.body() != null) {
+                val tokenResponse = response.body()!!
+                Log.d(TAG, "Successfully refreshed access token")
+                Log.d(TAG, "New token expires in: ${tokenResponse.expires_in} seconds")
+                tokenResponse
+            } else {
+                Log.e(TAG, "Failed to refresh token: ${response.code()} - ${response.message()}")
+                Log.e(TAG, "Error body: ${response.errorBody()?.string()}")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error refreshing token: ${e.message}", e)
             null
         }
     }

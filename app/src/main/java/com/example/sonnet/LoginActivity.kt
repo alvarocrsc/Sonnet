@@ -161,9 +161,20 @@ class LoginActivity : ComponentActivity() {
             if (tokenResponse != null) {
                 val accessToken = tokenResponse.access_token
                 Log.d("LoginActivity", "Access token received: ${accessToken.take(20)}...")
+                Log.d("LoginActivity", "Refresh token received: ${tokenResponse.refresh_token?.take(20) ?: "NULL"}")
+                Log.d("LoginActivity", "Token expires in: ${tokenResponse.expires_in} seconds")
                 
-                // Save token
-                TokenManager.saveToken(this@LoginActivity, accessToken)
+                // Save tokens with expiry
+                TokenManager.saveTokens(
+                    this@LoginActivity, 
+                    accessToken, 
+                    tokenResponse.refresh_token,
+                    tokenResponse.expires_in
+                )
+                
+                // Verify tokens were saved
+                val savedRefreshToken = TokenManager.getRefreshToken(this@LoginActivity)
+                Log.d("LoginActivity", "Verified saved refresh token: ${savedRefreshToken?.take(20) ?: "NULL"}")
                 
                 // Fetch and save user profile
                 fetchAndSaveUserProfile(accessToken)

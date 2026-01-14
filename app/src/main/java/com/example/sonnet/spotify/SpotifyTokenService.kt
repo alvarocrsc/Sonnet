@@ -19,6 +19,14 @@ interface SpotifyTokenService {
         @Field("client_id") clientId: String,
         @Field("code_verifier") codeVerifier: String
     ): Response<TokenResponse>
+    
+    @FormUrlEncoded
+    @POST("api/token")
+    suspend fun refreshToken(
+        @Field("grant_type") grantType: String = "refresh_token",
+        @Field("refresh_token") refreshToken: String,
+        @Field("client_id") clientId: String
+    ): Response<TokenResponse>
 }
 
 data class TokenResponse(

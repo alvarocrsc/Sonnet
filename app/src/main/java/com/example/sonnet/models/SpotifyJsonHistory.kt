@@ -27,9 +27,7 @@ data class SpotifyJsonHistory(
 
 fun SpotifyJsonHistory.toListeningHistory(
     userId: String, 
-    sourceFileId: String,
-    albumImageUrl: String? = null,
-    artistImageUrl: String? = null
+    sourceFileId: String
 ): ListeningHistory? {
     // Filter 1: Must have played the track during more than 30 seconds
     if (msPlayed < 30000) return null
@@ -55,8 +53,6 @@ fun SpotifyJsonHistory.toListeningHistory(
         trackName = trackName,
         artistName = artistName ?: "Unknown Artist",
         albumName = albumName,
-        albumImageUrl = albumImageUrl,
-        artistImageUrl = artistImageUrl,
         source = "import",
         sourceFileId = sourceFileId
     )

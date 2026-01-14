@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.sonnet.firebase.FirebaseManager
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private var settingsOverlay: View? = null
     private var currentUser: SpotifyUser? = null
+    private var profileManager: com.example.sonnet.profile.ProfileManager? = null
     
     enum class Screen {
         HOME,
@@ -74,6 +76,14 @@ class MainActivity : ComponentActivity() {
     
     override fun onStart() {
         super.onStart()
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // Refresh profile if we're on the profile screen
+        if (currentScreen == Screen.PROFILE) {
+            profileManager?.refresh()
+        }
     }
 
     override fun onStop() {
@@ -147,6 +157,14 @@ class MainActivity : ComponentActivity() {
         // Load profile picture for profile screen
         profileView.findViewById<ImageView>(R.id.profile_picture)?.let { imageView ->
             loadProfilePicture(imageView, currentUser?.profileImageUrl)
+        }
+        
+        // Set up profile with statistics
+        val userId = TokenManager.getUserId(this)
+        if (userId != null) {
+            profileManager = com.example.sonnet.profile.ProfileManager(profileView, lifecycleScope).apply {
+                initialize(userId)
+            }
         }
         
         // Set up settings button click listener
@@ -240,6 +258,11 @@ class MainActivity : ComponentActivity() {
                     contentContainer.removeView(settingsView)
                     settingsOverlay = null
                     currentScreen = previousScreen
+                    
+                    // Refresh profile if we're returning to it
+                    if (currentScreen == Screen.PROFILE) {
+                        profileManager?.refresh()
+                    }
                 }
                 .start()
         }

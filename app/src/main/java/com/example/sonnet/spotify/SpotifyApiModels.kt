@@ -93,3 +93,35 @@ data class SpotifyArtistResponse(
     @SerializedName("images")
     val images: List<SpotifyImage>
 )
+
+/**
+ * Search response from Spotify API
+ */
+data class SpotifySearchResponse(
+    @SerializedName("artists")
+    val artists: SpotifyArtistsPage?,
+    
+    @SerializedName("albums")
+    val albums: SpotifyAlbumsPage?
+)
+
+data class SpotifyArtistsPage(
+    @SerializedName("items")
+    val items: List<SpotifyArtistResponse>
+)
+
+data class SpotifyAlbumsPage(
+    @SerializedName("items")
+    val items: List<SpotifyAlbumResponse>
+)
+
+data class SpotifyAlbumResponse(
+    @SerializedName("id")
+    val id: String,
+    
+    @SerializedName("name")
+    val name: String,
+    
+    @SerializedName("images")
+    val images: List<SpotifyImage>
+)

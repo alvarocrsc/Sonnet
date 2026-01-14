@@ -8,6 +8,8 @@ import com.example.sonnet.models.stats.ArtistStats
 import com.example.sonnet.models.stats.AlbumStats
 import com.example.sonnet.models.stats.TrackStats
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.Source
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -21,7 +23,7 @@ class StatisticsManager private constructor() {
     
     companion object {
         private const val TAG = "StatisticsManager"
-        private const val BATCH_SIZE = 500
+        private const val BATCH_SIZE = 100 // Smaller batches to avoid CursorWindow overflow
         
         @Volatile
         private var instance: StatisticsManager? = null
@@ -47,8 +49,66 @@ class StatisticsManager private constructor() {
         db.collection("track_stats")
     
     /**
+     * Delete all existing statistics for a user
+     * This ensures clean recalculation without duplicates
+     * 
+     * @param userId User's Spotify ID
+     */
+    private suspend fun deleteAllStats(userId: String) {
+        try {
+            Log.d(TAG, "Deleting existing stats for user: $userId")
+            
+            // Delete user stats
+            getUserStatsDoc(userId).delete().await()
+            
+            // Delete all artist stats for this user
+            val artistQuery = getArtistStatsCollection()
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+            
+            artistQuery.documents.chunked(BATCH_SIZE).forEach { chunk ->
+                val batch = db.batch()
+                chunk.forEach { doc -> batch.delete(doc.reference) }
+                batch.commit().await()
+            }
+            Log.d(TAG, "Deleted ${artistQuery.size()} artist stats")
+            
+            // Delete all album stats for this user
+            val albumQuery = getAlbumStatsCollection()
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+            
+            albumQuery.documents.chunked(BATCH_SIZE).forEach { chunk ->
+                val batch = db.batch()
+                chunk.forEach { doc -> batch.delete(doc.reference) }
+                batch.commit().await()
+            }
+            Log.d(TAG, "Deleted ${albumQuery.size()} album stats")
+            
+            // Delete all track stats for this user
+            val trackQuery = getTrackStatsCollection()
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+            
+            trackQuery.documents.chunked(BATCH_SIZE).forEach { chunk ->
+                val batch = db.batch()
+                chunk.forEach { doc -> batch.delete(doc.reference) }
+                batch.commit().await()
+            }
+            Log.d(TAG, "Deleted ${trackQuery.size()} track stats")
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "Error deleting stats: ${e.message}", e)
+        }
+    }
+    
+    /**
      * Calculate and save all statistics for a user
      * This is the main entry point after importing data
+     * Deletes old stats first to prevent duplicates
      * 
      * @param userId User's Spotify ID
      * @param timeRange Time range to calculate stats for (defaults to ALL_TIME)
@@ -62,6 +122,10 @@ class StatisticsManager private constructor() {
     ): Boolean {
         return try {
             Log.d(TAG, "Starting statistics calculation for user: $userId (${timeRange.name})")
+            
+            // Delete old stats first to prevent duplicates
+            onProgress?.invoke("Clearing old statistics...")
+            deleteAllStats(userId)
             
             onProgress?.invoke("Fetching listening history...")
             val allHistory = getAllListeningHistory(userId, timeRange)
@@ -104,6 +168,8 @@ class StatisticsManager private constructor() {
     
     /**
      * Get all listening history for a user (for statistics calculation)
+     * Uses pagination to avoid CursorWindow overflow with large datasets
+     * NOTE: Orders by document ID (no index required) for reliable pagination
      * @param userId User's Spotify ID
      * @param timeRange Optional time range filter (defaults to ALL_TIME)
      */
@@ -113,27 +179,73 @@ class StatisticsManager private constructor() {
     ): List<ListeningHistory> {
         return try {
             val cutoffTimestamp = timeRange.getCutoffTimestamp()
+            val allHistory = mutableListOf<ListeningHistory>()
+            var lastDocument: com.google.firebase.firestore.DocumentSnapshot? = null
+            var hasMore = true
+            var pageCount = 0
             
-            val query = if (cutoffTimestamp != null) {
-                // Filter by time range
-                db.collection("users")
-                    .document(userId)
-                    .collection("listening_history")
-                    .whereGreaterThanOrEqualTo("playedAt", com.google.firebase.Timestamp(java.util.Date(cutoffTimestamp)))
-            } else {
-                // Get all data
-                db.collection("users")
-                    .document(userId)
-                    .collection("listening_history")
+            Log.d(TAG, "Starting paginated fetch for user $userId (batch size: $BATCH_SIZE, cutoff: $cutoffTimestamp)")
+            
+            while (hasMore) {
+                try {
+                    // Build query with orderBy document ID (no index required) and limit
+                    val query = if (lastDocument != null) {
+                        Log.d(TAG, "Fetching page ${pageCount + 1} starting after document: ${lastDocument.id}")
+                        db.collection("users")
+                            .document(userId)
+                            .collection("listening_history")
+                            .orderBy(FieldPath.documentId())
+                            .startAfter(lastDocument)
+                            .limit(BATCH_SIZE.toLong())
+                    } else {
+                        Log.d(TAG, "Fetching first page (limit: $BATCH_SIZE)")
+                        db.collection("users")
+                            .document(userId)
+                            .collection("listening_history")
+                            .orderBy(FieldPath.documentId())
+                            .limit(BATCH_SIZE.toLong())
+                    }
+                    
+                    // Force server-side execution to respect the limit (avoid loading all cached docs)
+                    val snapshot = query.get(Source.SERVER).await()
+                    val docCount = snapshot.documents.size
+                    
+                    Log.d(TAG, "Query returned $docCount documents")
+                    
+                    if (snapshot.documents.isEmpty()) {
+                        hasMore = false
+                        Log.d(TAG, "No more documents to load")
+                    } else {
+                        // Filter by time range in memory if needed
+                        val batch = snapshot.documents.mapNotNull { doc ->
+                            doc.toObject(ListeningHistory::class.java)?.let { history ->
+                                if (cutoffTimestamp != null) {
+                                    val playedAtMs = history.playedAt.toDate().time
+                                    if (playedAtMs >= cutoffTimestamp) history else null
+                                } else {
+                                    history
+                                }
+                            }
+                        }
+                        
+                        allHistory.addAll(batch)
+                        lastDocument = snapshot.documents.lastOrNull()
+                        hasMore = docCount == BATCH_SIZE
+                        pageCount++
+                        
+                        Log.d(TAG, "Page $pageCount: loaded ${batch.size} entries (total so far: ${allHistory.size})")
+                    }
+                } catch (pageError: Exception) {
+                    Log.e(TAG, "Error loading page ${pageCount + 1}: ${pageError.message}", pageError)
+                    throw pageError
+                }
             }
             
-            val snapshot = query.get().await()
-            
-            snapshot.documents.mapNotNull { doc ->
-                doc.toObject(ListeningHistory::class.java)
-            }
+            Log.d(TAG, "Finished loading ${allHistory.size} entries in $pageCount pages")
+            allHistory
         } catch (e: Exception) {
             Log.e(TAG, "Error fetching listening history: ${e.message}", e)
+            e.printStackTrace()
             emptyList()
         }
     }
@@ -179,7 +291,7 @@ class StatisticsManager private constructor() {
                 userId = userId,
                 artistId = artistName.hashCode().toString(),
                 artistName = artistName,
-                imageUrl = entries.firstNotNullOfOrNull { it.artistImageUrl },
+                imageUrl = null, // Fetched from Spotify API when displayed
                 totalListeningTimeMs = totalTime,
                 playCount = playCount,
                 rank = 0, // Will be set after sorting
@@ -217,7 +329,7 @@ class StatisticsManager private constructor() {
                 albumId = albumName.hashCode().toString(),
                 albumName = albumName,
                 artistName = firstEntry.artistName ?: "",
-                imageUrl = firstEntry.albumImageUrl,
+                imageUrl = null, // Fetched from Spotify API when displayed
                 totalListeningTimeMs = totalTime,
                 playCount = playCount,
                 rank = 0, // Will be set after sorting
@@ -256,7 +368,6 @@ class StatisticsManager private constructor() {
                 trackName = firstEntry.trackName ?: "",
                 artistName = firstEntry.artistName ?: "",
                 albumName = firstEntry.albumName ?: "",
-                albumImageUrl = firstEntry.albumImageUrl,
                 durationMs = firstEntry.durationMs,
                 totalListeningTimeMs = totalTime,
                 playCount = playCount,
